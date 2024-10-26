@@ -1,0 +1,26 @@
+################################################################
+# Shell Commands
+################################################################
+
+mac_sleep_display: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=sleep_display"
+mac_wake_display: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=wake_display"
+mac_display_brightness_up: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=brightness_up"
+mac_display_brightness_down: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=brightness_down"
+
+mac_media_play_pause: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=media_play_pause"
+mac_volume_down: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=volume_down"
+mac_volume_up: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=volume_up"
+mac_mute: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=mute"
+mac_set_volume: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=set_volume&volume={{ state_attr('media_player.mac_mini', 'volume_level') }}"
+
+##
+# Mac LED
+##
+mac_bathroom_occupied: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=bathroom_occupied"
+mac_bathroom_occupied_animate: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=bathroom_occupied_animate"
+mac_bathroom_clear: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=bathroom_clear"
+mac_bathroom_clear_animate: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=bathroom_clear_animate"
+mac_shannon_in_meeting: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=shannon_in_meeting"
+mac_shannon_in_meeting_animate: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=shannon_in_meeting_animate"
+mac_shannon_not_in_meeting: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=shannon_not_in_meeting"
+mac_shannon_not_in_meeting_animate: "curl http://mac-mini.lloydnet.org:64101/trigger_named/?trigger_name=shannon_not_in_meeting_animate"

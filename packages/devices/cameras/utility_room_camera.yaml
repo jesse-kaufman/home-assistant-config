@@ -1,0 +1,71 @@
+################################################################
+# Utility Room Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  utility_room_camera_last_ai_event_description:
+    name: Utility Room Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Templates
+#
+template:
+  # UTILITY ROOM NAME
+  - sensor:
+      - name: Utility Room Camera Name
+        state: "Utility Room"
+        unique_id: sensor-utility_room_camera_name
+
+  # UTILITY ROOM MODEL NAME
+  - sensor:
+      - name: Utility Room Camera Model name
+        state: "Doorbell S220"
+        unique_id: sensor-utility_room_camera_model_name
+
+  # UTILIY ROOM MODEL NUMBER
+  - sensor:
+      - name: Utility Room Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.utility_room_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.utility_room_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-utility_room_camera_model_number
+
+  # UTILITY ROOM FIRMWARE
+  - sensor:
+      - name: Utility Room Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.utility_room_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.utility_room_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-utility_room_camera_firmware_revision
+
+  # Utility Room camera
+  - image:
+      - name: Utility Room Camera Last Motion (AI)
+        unique_id: image-utility_room_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room-motion-ai.jpg?{{ states('input_datetime.utility_room_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Utility Room Camera Last Person (AI)
+        unique_id: image-utility_room_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room-person-ai.jpg?{{ states('input_datetime.utility_room_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Utility Room Camera Last Known Person (AI)
+        unique_id: image-utility_room_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room-known-person-ai.jpg?{{ states('input_datetime.utility_room_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Utility Room Camera Last Pet (AI)
+        unique_id: image-utility_room_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room-pet-ai.jpg?{{ states('input_datetime.utility_room_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Utility Room Camera Last Snapshot
+        unique_id: image-utility_room_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room.jpg?{{ states('input_datetime.utility_room_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Utility Room Camera Last AI Event
+        unique_id: image-utility_room_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/utility_room/utility_room-ai-event.jpg?{{ states('input_datetime.utility_room_camera_last_ai_event') | as_timestamp(0) }}

@@ -1,0 +1,89 @@
+"sensor.*_voltage":
+  icon: mdi:lightning-bolt
+"sensor.*_energy":
+  icon: mdi:lightning-bolt
+  unit_of_measurement: kWh
+  device_class: energy
+"sensor.*_current":
+  icon: mdi:current-ac
+"sensor.*_power":
+  icon: mdi:lightning-bolt
+
+"binary_sensor.*_occupied":
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--purple-color)';
+      return 'var(--dark-grey-color)';
+    icon: >
+      if (state === 'on') return 'mdi:cards-diamond';
+      return 'mdi:cards-diamond-outline';
+
+"binary_sensor.*_motion_sensor*_occupancy":
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--teal-color)';
+      return 'var(--dark-grey-color)';
+    icon: >
+      if (state === 'on') return 'mdi:motion';
+      return 'mdi:motion-outline';
+
+"binary_sensor.*_occupancy_sensors":
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--teal-color)';
+      return 'var(--dark-grey-color)';
+    icon: >
+      if (state === 'on') return 'mdi:motion-sensor';
+      return 'mdi:motion-sensor-off';
+
+"binary_sensor.*_presence":
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--teal-color)';
+      return 'var(--dark-grey-color)';
+    icon: >
+      if (state === 'on') return 'mdi:motion-sensor';
+      return 'mdi:motion-sensor-off';
+
+"sensor.*_color_temp_kelvin":
+  icon: mdi:thermometer-water
+"sensor.*_brightness_pct":
+  icon: mdi:brightness-percent
+"switch.adaptive_lighting_adapt_brightness_*":
+  icon: mdi:brightness-auto
+"switch.adaptive_lighting_sleep_mode_*":
+  icon: mdi:lightbulb-night-outline
+
+"light.*_lights":
+  icon: mdi:lightbulb-group
+"input_boolean.*_lights_paused":
+  icon: mdi:lightbulb-night-outline
+
+"binary_sensor.*_vibration":
+  icon: mdi:heat-wave
+
+"sensor.*_linkquality":
+  unit_of_measurement: lqi
+  icon: mdi:signal
+"sensor.*_lqi":
+  unit_of_measurement: lqi
+  icon: mdi:signal
+
+"sensor.*_router_linkquality":
+  icon: mdi:broadcast
+"sensor.*_router_lqi":
+  icon: mdi:broadcast
+"sensor.*_router*_linkquality":
+  icon: mdi:broadcast
+"sensor.*_router*_lqi":
+  icon: mdi:broadcast
+
+"sensor.*average*_linkquality":
+  icon: mdi:leak
+"sensor.*average*_lqi":
+  icon: mdi:leak
+
+"sensor.*_lux":
+  icon: ios:sun-max
+"sensor.*illuminance":
+  icon: ios:sun-max

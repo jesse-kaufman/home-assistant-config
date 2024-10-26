@@ -1,0 +1,418 @@
+################################################################
+# RoboVac
+################################################################
+
+################################################################
+# Vacuum entity
+#
+vacuum:
+  - platform: template
+    vacuums:
+      robovac:
+        unique_id: vacuum-robovac
+        friendly_name: RoboVac L35 Hybrid
+        start:
+          - service: vacuum.start
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        return_to_base:
+          - service: vacuum.return_to_base
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        clean_spot:
+          - service: vacuum.clean_spot
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        locate:
+          - service: vacuum.locate
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        set_fan_speed:
+          - service: vacuum.set_fan_speed
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        pause:
+          - service: vacuum.pause
+            target:
+              entity_id: vacuum.robovac_l35_hybrid
+        fan_speeds:
+          - Quiet
+          - Standard
+          - Turbo
+          - Max
+          - Boost IQ
+        fan_speed_template: >-
+          {{ states('input_select.robovac_fan_speed_input') }}
+        battery_level_template: >-
+          {{ states('input_number.robovac_battery_input') }}
+        value_template: >-
+          {% if is_state('binary_sensor.robovac_error','on') %}
+            error
+          {% elif is_state('sensor.robovac_status','Vacuuming')
+            or is_state('sensor.robovac_status','Mopping')
+            %}
+            cleaning
+          {% elif is_state('sensor.robovac_status', 'Finishing up') %}
+            returning
+          {% elif is_state('sensor.robovac_status','Charging')
+            or is_state('sensor.robovac_status','Emptying')
+            or is_state('sensor.robovac_status','Docked')
+            or is_state('sensor.robovac_status','Leaving dock')
+            or is_state('sensor.robovac_status','Leaving charging station')
+            %}
+            docked
+          {% elif not is_state('sensor.robovac_status', 'unknown')
+            and not is_state('sensor.robovac_status','unavailable')
+            %}
+            {{ states('sensor.robovac_status') | lower }}
+          {% else %}
+            idle
+          {% endif %}
+        attribute_templates:
+          icon: >-
+            {% if is_state('binary_sensor.robovac_error','on') %}
+              mdi:robot-vacuum-alert
+            {% else %}
+              mdi:robot-vacuum
+            {% endif %}
+          status: >-
+            {{ states('sensor.robovac_status') }}
+          consumable_side_brushes: >-
+            {% if state_attr('vacuum.robovac_l35_hybrid', 'consumable_side_brushes') != None %}
+              {{ state_attr('vacuum.robovac_l35_hybrid','consumable_side_brushes') }}
+            {% else %}
+              {{ state_attr('vacuum.robovac','consumable_side_brushes') }}
+            {% endif %}
+          consumable_rolling_brush: >-
+            {% if state_attr('vacuum.robovac_l35_hybrid', 'consumable_rolling_brush') != None %}
+              {{ state_attr('vacuum.robovac_l35_hybrid','consumable_rolling_brush') }}
+            {% else %}
+              {{ state_attr('vacuum.robovac','consumable_rolling_brush') }}
+            {% endif %}
+          consumable_filter: >-
+            {% if state_attr('vacuum.robovac_l35_hybrid', 'consumable_filter') != None %}
+              {{ state_attr('vacuum.robovac_l35_hybrid','consumable_filter') }}
+            {% else %}
+              {{ state_attr('vacuum.robovac','consumable_filter') }}
+            {% endif %}
+          consumable_sensors: >-
+            {% if state_attr('vacuum.robovac_l35_hybrid', 'consumable_sensors') != None %}
+              {{ state_attr('vacuum.robovac_l35_hybrid','consumable_sensors') }}
+            {% else %}
+              {{ state_attr('vacuum.robovac','consumable_sensors') }}
+            {% endif %}
+
+################################################################
+# Templates
+#
+template:
+  # VACUUM MODE
+  - sensor:
+      - unique_id: sensor-robovac_mode
+        name: RoboVac L35 Hybrid Mode
+        state: >-
+          {{ states('input_select.robovac_mode_input') }}
+        attributes:
+          options: Auto,Room,Spot
+
+  # VACUUM ERROR
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_error
+        name: RoboVac L35 Hybrid Error
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','status') == none %}
+            off
+          {% else %}
+            {% if 'Error' in state_attr('vacuum.robovac_l35_hybrid','status')
+              and not is_state('sensor.robovac_error_message', 'No error')
+              %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # VACUUM DND
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_do_not_disturb
+        name: RoboVac L35 Hybrid Do Not Disturb
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid', 'do_not_disturb') == false %}
+            off
+          {% elif state_attr('vacuum.robovac_l35_hybrid', 'do_not_disturb') == true %}
+            on
+          {% else %}
+            {{ states('binary_sensor.robovac_do_not_disturb') }}
+          {% endif %}
+
+  # VACUUM BoostIQ
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_boost_iq
+        name: RoboVac L35 Hybrid BoostIQ
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid', 'boost_iq') == false %}
+            off
+          {% elif state_attr('vacuum.robovac_l35_hybrid', 'boost_iq') == true %}
+            on
+          {% else %}
+            {{ states('binary_sensor.robovac_boost_iq') }}
+          {% endif %}
+
+  # VACUUM COLLECT SWITCH
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_collect_switch
+        name: RoboVac L35 Hybrid Collect Switch
+        state: >-
+          {% if is_state_attr('vacuum.robovac_l35_hybrid','collect_switch',false) %}
+            off
+          {% elif is_state_attr('vacuum.robovac_l35_hybrid','collect_switch',true) %}
+            on
+          {% endif %}
+
+  # VACUUM AUTORETURN
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_auto_return
+        name: RoboVac L35 Hybrid Auto Return
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid', 'auto_return') == false %}
+            off
+          {% elif state_attr('vacuum.robovac_l35_hybrid', 'auto_return') == true %}
+            on
+          {% else %}
+            {{ states('binary_sensor.robovac_auto_return') }}
+          {% endif %}
+
+  # VACUUM CHILD LOCK
+  - binary_sensor:
+      - unique_id: binary_sensor-robovac_child_lock_switch
+        name: RoboVac L35 Hybrid Child Lock
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','child_lock_switch') == true %}
+            on
+          {% elif state_attr('vacuum.robovac_l35_hybrid', 'child_lock_switch') == false %}
+            off
+          {% else %}
+            {{ states('binary_sensor.robovac_child_lock') }}
+          {% endif %}
+        icon: >-
+          {% if is_state('binary_sensor.robovac_child_lock', 'on') %}
+            mdi:lock
+          {% elif is_state('binary_sensor.robovac_child_lock', 'off') %}
+            mdi:lock-open-variant
+          {% endif %}
+
+  # VACUUM STATUS
+  - sensor:
+      - name: RoboVac L35 Hybrid Status
+        state: >-
+          {% if is_state('input_boolean.robovac_emptying','on') %}
+            {% if is_state('sensor.robovac_status_raw','returning') %}
+              Finishing up
+            {% else %}
+              Emptying
+            {% endif %}
+          {% elif is_state('sensor.robovac_status_raw','cleaning') %}
+            {% if is_state('input_boolean.robovac_leaving_dock_input','on') %}
+              Leaving charging station
+            {% elif is_state('sensor.robovac_clean_mode','Vacuum') %}
+              Vacuuming
+            {% elif is_state('sensor.robovac_clean_mode','Mop') %}
+              Mopping
+            {% endif %}
+          {% elif is_state('binary_sensor.robovac_error','on') %}
+            {{ states('sensor.robovac_error_message') }}
+          {% elif is_state('sensor.robovac_status_raw','Error: None') %}
+            Idle
+          {% else %}
+            {{ states('sensor.robovac_status_raw') | capitalize }}
+          {% endif %}
+        unique_id: sensor-robovac_status
+
+  # RAW VACUUM WATER LEVEL
+  - sensor:
+      - unique_id: sensor-robovac_water_level_raw
+        name: RoboVac L35 Hybrid Water Level (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','water_mode') | capitalize }}
+
+  # VACUUM WATER LEVEL
+  - sensor:
+      - unique_id: sensor-robovac_water_level
+        name: RoboVac L35 Hybrid Water Level
+        state: >-
+          {{ states('input_select.robovac_water_level_input') }}
+        icon: >-
+          {% if is_state(this.entity_id,'Dry') or is_state('sensors.robovac_clean_mode','Vacuum') %}
+            mdi:water-off
+          {% elif is_state(this.entity_id,'Low') %}
+            mdi:water-minus
+          {% elif is_state(this.entity_id,'Medium') %}
+            mdi:water
+          {% elif is_state(this.entity_id,'High') %}
+            mdi:water-plus
+          {% else %}
+            mdi:water-off
+          {% endif %}
+        attributes:
+          options: Dry,Low,Medium,High
+
+  # VACUUM CLEAN MODE
+  - sensor:
+      - unique_id: sensor-robovac_clean_mode
+        name: RoboVac L35 Hybrid Clean Mode
+        state: >-
+          {{ states('input_select.robovac_clean_mode_input') }}
+        attributes:
+          options: Vacuum,Mop
+
+  # VACUUM AUTO METHOD
+  - sensor:
+      - unique_id: sensor-robovac_auto_method
+        name: RoboVac L35 Hybrid Auto Method
+        state: >-
+          {{ states('input_text.robovac_auto_method_input') }}
+
+  # VACUUM BOX TYPE
+  - sensor:
+      - unique_id: sensor-robovac_collection_bin_type
+        name: RoboVac L35 Hybrid Collection Bin Type
+        state: >-
+          {{ states('input_text.robovac_collection_bin_type_input') }}
+
+  # VACUUM DOCK TYPE
+  - sensor:
+      - unique_id: sensor-robovac_collection_dock_type
+        icon: mdi:ev-station
+        name: RoboVac L35 Hybrid Dock Type
+        state: >-
+          {{ states('input_text.robovac_collection_dock_type_input') }}
+
+  # VACUUM ERROR MESSAGE
+  - sensor:
+      - unique_id: sensor-robovac_error_message
+        name: RoboVac L35 Hybrid Error Message
+        icon: mdi:alert-octagon-outline
+        state: >-
+          {% if states('input_text.robovac_error_message_input') != None %}
+            {{ states('input_text.robovac_error_message_input') }}
+          {% else %}
+            No error
+          {% endif %}
+
+  # VACUUM BATTERY LEVEL
+  - sensor:
+      - unique_id: sensor-robovac_battery
+        name: RoboVac L35 Hybrid Battery level
+        state: >-
+          {{ states('input_number.robovac_battery_input') }}
+        device_class: battery
+        unit_of_measurement: "%"
+
+  # VACUUM FAN SPEED
+  - sensor:
+      - unique_id: sensor-robovac_fan_speed
+        name: RoboVac L35 Hybrid Fan Speed
+        state: >-
+          {% if states('input_select.robovac_fan_speed_input') != None %}
+            {{ states('input_select.robovac_fan_speed_input') }}
+          {% else %}
+            Uhoh
+          {% endif %}
+        attributes:
+          options: Quiet, Standard, Turbo, Max, Boost IQ
+        icon: >-
+          {% set speed = states(this.entity_id) %}
+          {% if speed is defined %}
+            {% if speed == 'Quiet' %}
+              mdi:fan-remove
+            {% elif speed == 'Standard' %}
+              mdi:fan-speed-1
+            {% elif speed == 'Turbo' %}
+              mdi:fan-speed-2
+            {% elif speed == 'Max' %}
+              mdi:fan-speed-3
+            {% elif speed == 'Boost IQ' %}
+              mdi:fan-auto
+            {% endif %}
+          {% else %}
+            mdi:fan-off
+          {% endif %}
+
+  # VACUUM TOTAL CLEANING AREA
+  - sensor:
+      - unique_id: sensor-robovac_total_cleaning_area
+        name: RoboVac L35 Hybrid Total Cleaning Area
+        unit_of_measurement: sqft
+        state: >-
+          {{ states('input_number.robovac_total_cleaning_area_input') | round }}
+
+  # VACUUM TOTAL CLEANING TIME
+  - sensor:
+      - unique_id: sensor-robovac_total_cleaning_time
+        name: RoboVac L35 Hybrid Total Cleaning Time
+        unit_of_measurement: minutes
+        state: >-
+          {{ states('input_number.robovac_total_cleaning_time_input') | round }}
+
+  # VACUUM CLEANING AREA
+  - sensor:
+      - unique_id: sensor-robovac_cleaning_area
+        name: RoboVac L35 Hybrid Cleaning Area
+        unit_of_measurement: sqft
+        state: >-
+          {{ states('input_number.robovac_cleaning_area_input') | round }}
+
+  # VACUUM CLEANING TIME
+  - sensor:
+      - unique_id: sensor-robovac_cleaning_time
+        name: RoboVac L35 Hybrid Cleaning Time
+        unit_of_measurement: minutes
+        state: >-
+          {{ states('input_number.robovac_cleaning_time_input') | round }}
+
+  # VACUUM CONSUMABLES - SIDE BRUSHES
+  - sensor:
+      - unique_id: sensor-robovac_side_brushes_hours_left
+        name: RoboVac L35 Hybrid Side Brushes Hours Left
+        unit_of_measurement: hour
+        state: >-
+          {{ states('input_number.robovac_replace_side_brushes_hours') | int - states('input_number.robovac_side_brushes_hours_input') | int }}
+
+  # VACUUM CONSUMABLES - ROLLING BRUSH
+  - sensor:
+      - unique_id: sensor-robovac_rolling_brush_hours_left
+        name: RoboVac L35 Hybrid Rolling Brush Hours Left
+        unit_of_measurement: hour
+        state: >-
+          {{ states('input_number.robovac_replace_rolling_brush_hours') | int - states('input_number.robovac_rolling_brush_hours_input') | int }}
+
+  # VACUUM CONSUMABLES - FILTER
+  - sensor:
+      - unique_id: sensor-robovac_filter_hours_left
+        name: RoboVac L35 Hybrid Filter Hours Left
+        unit_of_measurement: hour
+        state: >-
+          {{ states('input_number.robovac_replace_filter_hours') | int - states('input_number.robovac_filter_hours_input') | int }}
+
+  # VACUUM CONSUMABLES - SENSORS
+  - sensor:
+      - unique_id: sensor-robovac_sensors_hours_left
+        name: RoboVac L35 Hybrid Sensors Hours Left
+        unit_of_measurement: hour
+        state: >-
+          {{ states('input_number.robovac_clean_sensors_hours') | int - states('input_number.robovac_sensors_hours_input') | int }}
+
+  # VACUUM COLLECT MODE
+  - sensor:
+      - unique_id: sensor-robovac_auto_empty
+        name: RoboVac L35 Hybrid Auto Empty
+        attributes:
+          options: Off, Every clean, Every other clean, Every 3rd clean
+        state: >-
+          {{ states('input_select.robovac_auto_empty_input') }}
+        icon: >-
+          {% if is_state(this.entity_id,'0') %}
+            mdi:delete-off
+          {% else %}
+            mdi:delete-restore
+          {% endif %}

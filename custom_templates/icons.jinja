@@ -1,0 +1,175 @@
+{##
+## Text formatting macros
+##}
+
+{#
+  TODO:
+  - person location
+  - occupancy-related icons
+  - motion-related icons
+  - camera-related icons
+#}
+
+{% macro icon_person(person) %}
+  {%- set state = states('person.' ~ person) | lower %}
+  {%- if is_state('input_boolean.' ~ person ~ '_in_meeting','on') -%}
+    mdi:calendar-clock
+  {%- elif 'home' == state -%}
+    mdi:home
+  {%- elif state == 'away' or state == 'not_home' -%}
+    mdi:home-export-outline
+  {%- elif state == 'Slate Creek' or state == 'Cooper' -%}
+    mdi:school
+  {%- elif state == 'unknown' -%}
+    mdi:account-question
+  {%- else -%}
+      mdi:home-export-outline
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of a lock.
+#}
+{% macro icon_lock(entity_id) %}
+  {%- if 'lock.' in entity_id %}
+
+    {%- set state = states(entity_id) -%}
+
+    {% if state == "unlocked" -%}
+      mdi:lock-open-variant
+    {% elif state == "locked" -%}
+      mdi:lock
+    {%- else -%}
+      mdi:lock-alert
+    {% endif %}
+
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of an occupancy entity.
+#}
+{% macro icon_occupancy(entity_id) %}
+  {%- if 'occupied' in entity_id %}
+
+    {%- set state = states(entity_id) -%}
+
+    {% if state == "on" -%}
+      mdi:cards-diamond
+    {% elif state == "off" -%}
+      mdi:cards-diamond-outline
+    {%- else -%}
+      mdi:cards-diamond-outline
+    {% endif %}
+
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of auto lights.
+#}
+{% macro icon_auto_lights(entity_id) -%}
+  {#-
+  # Get room from entity_id
+  #
+  # - Sent entity_id format:
+  #     * binary_sensor.[room]_auto_lights
+  # - Lights paused entity_id format:
+  #     * input_boolean.[room]_lights_paused
+  #}
+  {% if 'binary_sensor' in entity_id %}
+    {%- set room = entity_id | regex_findall('(?<=binary_sensor.)(.*)_auto_lights') -%}
+  {% else %}
+    {%- set room = entity_id | regex_findall('(?<=input_boolean.)(.*)_lights_paused') -%}
+  {% endif %}
+
+  {% set lights_paused = 'input_boolean.' + room[0] + '_lights_paused' -%}
+
+  {% if is_state(lights_paused,'on') -%}
+    mdi:lightbulb-night
+  {%- else -%}
+    mdi:lightbulb-auto
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of echo notifications.
+#}
+{% macro icon_echo_notifications(entity_id) -%}
+  {#-
+  # Get room from entity_id
+  #
+  # - Sent entity_id format:
+  #     * binary_sensor.[room]_echo_notifications
+  # - Echo notifications paused entity_id format:
+  #     * input_boolean.[room]_echo_notifications_paused
+  #}
+  {% if 'binary_sensor' in entity_id %}
+    {%- set room = entity_id | replace('binary_sensor.','') | replace('_echo_notifications','')%}
+  {% else %}
+    {%- set room = entity_id | replace('input_boolean.', '') | replace('_echo_notifications_paused','') -%}
+  {% endif %}
+
+  {% set echo_notifications_paused = 'input_boolean.' + room + '_echo_notifications_paused' -%}
+
+  {% if is_state(echo_notifications_paused,'on') -%}
+    mdi:speaker-pause
+  {%- else -%}
+    mdi:speaker-message
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of an alarm control panel.
+#}
+{% macro icon_alarm(entity_id) -%}
+  {%- set state = states(entity_id) %}
+
+  {%- if state == 'armed_home' -%}
+    mdi:shield-home-outline
+  {%- elif state == 'armed_away' -%}
+    mdi:shield-lock-outline
+  {%- elif state == 'armed_night' -%}
+    mdi:shield-moon-outline
+  {%- elif state == 'armed_vacation' -%}
+    mdi:shield-airplane-outline
+  {%- elif state == 'disarmed' -%}
+    mdi:shield-off-outline
+  {%- elif state == 'triggered' or state == 'pending' -%}
+    mdi:shield-alert-outline
+  {%- elif state == 'arming' -%}
+    mdi:shield-sync-outline
+  {%- endif %}
+{%- endmacro %}
+
+{#
+# Returns an icon reflecting the current state of garage door.
+#}
+{% macro icon_garage(entity_id) -%}
+  {%- set state = states(entity_id) %}
+
+  {%- if state == "open" -%}
+    mdi:garage-open-variant
+  {%- elif state == "closed" -%}
+    mdi:garage-variant
+  {%- elif state == "opening" or state == "closing" -%}
+    mdi:garage-variant
+  {%- else -%}
+    mdi:garage-alert-variant
+  {%- endif %}
+{%- endmacro %}
+
+
+{% macro wifi_rssi_icon(entity_id) %}
+  {% set state = states(entity_id) | int(-99) %}
+  {% if state >= -50 %}
+    mdi:wifi-strength-4
+  {% elif state >= -60 %}
+    mdi:wifi-strength-2
+  {% elif state >= -70 %}
+    mdi:wifi-strength-1
+  {% else %}
+    mdi:wifi-strength-outline
+  {% endif %}
+{% endmacro %}
+

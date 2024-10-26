@@ -1,0 +1,32 @@
+################################################################
+# Echo Device Volumes
+################################################################
+
+template:
+  # KITCHEN ECHO VOLUME
+  - sensor:
+      - unique_id: sensor-kitchen_echo_volume
+        name: Kitchen Echo volume
+        state: >-
+          {{ state_attr('media_player.kitchen_echo','volume_level') }}
+
+  # LIVING ROOM ECHO VOLUME
+  - sensor:
+      - unique_id: sensor-living_room_echo_volume
+        name: Living Room Echo volume
+        state: >-
+          {{ state_attr('media_player.living_room_echo','volume_level') }}
+
+  # BEDROOM ECHO VOLUME
+  - sensor:
+      - unique_id: sensor-bedroom_echo_volume
+        name: Bedroom Echo volume
+        state: >-
+          {{ state_attr('media_player.bedroom_echo','volume_level') }}
+
+  # GARAGE ECHO VOLUME
+  - sensor:
+      - unique_id: sensor-garage_echo_volume
+        name: Garage Echo volume
+        state: >-
+          {{ state_attr('media_player.garage_echo','volume_level') }}

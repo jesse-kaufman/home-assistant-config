@@ -1,0 +1,98 @@
+################################################################
+# Back Door Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  back_door_camera_last_ai_event_description:
+    name: Back Door Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Lights
+#
+light:
+  #
+  # Back Door Camera Light
+  #
+  - platform: template
+    lights:
+      #
+      # Back Door Camera Light
+      #
+      back_door_camera_light:
+        unique_id: light-back_door_camera_light
+        friendly_name: "Back Door Camera Light"
+        level_template: "{{ (( states('number.back_door_camera_light_brightness_manual') | int(0) / 100 ) * 255) | round }}"
+        value_template: "{{ states('switch.back_door_camera_light') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.back_door_camera_light
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.back_door_camera_light
+        set_level:
+          service: number.set_value
+          data:
+            entity_id: number.back_door_camera_light_brightness_manual
+            value: >-
+              {{ ((brightness / 255) * 100) | int }}
+
+################################################################
+# Templates
+#
+template: # BACK DOOR NAME
+  - sensor:
+      - name: Back Door Camera Name
+        state: "Back Door"
+        unique_id: sensor-back_door_camera_name
+
+  # BACK DOOR MODEL NAME
+  - sensor:
+      - name: Back Door Camera Model name
+        state: "Floodlight Cam 2K"
+        unique_id: sensor-back_door_camera_model_name
+
+  # BACK DOOR MODEL NUMBER
+  - sensor:
+      - name: Back Door Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.back_door_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.back_door_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-back_door_camera_model_number
+
+  # BACK DOOR FIRMWARE
+  - sensor:
+      - name: Back Door Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.back_door_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.back_door_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-back_door_camera_firmware_revision
+
+  # Back door camera
+  - image:
+      - name: Back Door Camera last motion (AI)
+        unique_id: image-back_door_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/back_door/back_door-motion-ai.jpg?{{ states('input_datetime.back_door_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Door Camera last person (AI)
+        unique_id: image-back_door_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/back_door/back_door-person-ai.jpg?{{ states('input_datetime.back_door_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Door Camera last AI event
+        unique_id: image-back_door_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/back_door/back_door-ai-event.jpg?{{ states('input_datetime.back_door_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Back Door Camera last snapshot
+        unique_id: image-back_door_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/back_door/back_door.jpg?{{ states('input_datetime.back_door_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Back Door Camera last garage side door open
+        unique_id: image-back_door_camera_last_garage_side_door_open
+        url: http://localhost:8123/local/images/cameras/back_door/back_door-garage_side_door_open.jpg?{{ states('input_datetime.back_door_camera_last_garage_side_door_open') | as_timestamp(0) }}

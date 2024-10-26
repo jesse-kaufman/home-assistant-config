@@ -1,0 +1,32 @@
+{##
+## Text formatting macros
+##}
+
+{#
+# Returns a string with count and label with correct pluralization
+# based on the parameters sent.
+# 
+# Parameters
+# ----------
+# count: number
+#   The count on which to base the formatting
+# noun: string
+#   The noun to be formatted
+#
+# Returns
+# -------
+# string
+#   The formatted count string with label
+#}
+{% macro format_count(count, noun) %}
+  {%- set suffix = '' -%}
+  {%- set count = count | int(0) %}
+  {%- if count != 1 -%}
+    {% set suffix = 's' %}
+    {%- if noun[-1] == 's' %}
+      {% set suffix = join('e', suffix) %}
+    {% endif %}
+  {%- endif %}
+
+  {{- count }} {{ noun }}{{ suffix }} 
+{%- endmacro %}

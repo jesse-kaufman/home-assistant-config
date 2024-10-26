@@ -1,0 +1,103 @@
+################################################################
+# Light Brightness and temp
+################################################################
+
+template:
+  # Bathroom Lights Color Temp
+  - sensor:
+      - name: Bathroom Lights Color Temp
+        device_class: temperature
+        unit_of_measurement: "K"
+        state: >
+          {{ state_attr('light.bathroom_lights', 'color_temp_kelvin')|int(none) }}
+        unique_id: sensor-bathroom_lights_color_temp_kelvin
+
+  # Bathroom Lights Brightness
+  - sensor:
+      - name: "Bathroom Lights Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.bathroom_lights', 'brightness')|int(0) %}
+          {{ bri / 255 * 100 }}
+        unique_id: sensor-bathroom_brightness_pct
+
+  # Kitchen lights color temp
+  - sensor:
+      - name: Kitchen Lights Color Temp
+        device_class: temperature
+        unit_of_measurement: "K"
+        state: >
+          {{ state_attr('light.kitchen_lights', 'color_temp_kelvin')|int(none) }}
+        unique_id: sensor-kitchen_lights_color_temp_kelvin
+
+  # Kitchen lights color temp
+  - sensor:
+      - name: "Kitchen Lights Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.kitchen_lights', 'brightness')|int(0) %}
+          {{ bri / 255 * 100 if bri != none else 0 }}
+        unique_id: sensor-kitchen_brightness_pct
+
+  # Bedroom lights color temp
+  - sensor:
+      - name: Bedroom Lights Color Temp
+        device_class: temperature
+        unit_of_measurement: "K"
+        state: >
+          {{ state_attr('light.bedroom_lights', 'color_temp_kelvin')|int(none) }}
+        unique_id: sensor-bedroom_lights_color_temp_kelvin
+
+  # Bedroom Lights Brightness
+  - sensor:
+      - name: "Bedroom Lights Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.bedroom_lights', 'brightness')|int(0) %}
+          {{ bri / 254 * 100 }}
+        unique_id: sensor-bedroom_brightness_pct
+
+  # Living Room lights color temp
+  - sensor:
+      - name: Living Room Lights Color Temp
+        device_class: temperature
+        unit_of_measurement: "K"
+        state: >
+          {{ state_attr('light.living_room_lights', 'color_temp_kelvin')|int(none) }}
+        unique_id: sensor-living_room_lights_color_temp_kelvin
+
+  # Living Room lights brightness
+  - sensor:
+      - name: "Living Room Lights Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.living_room_lights', 'brightness')|int(0) %}
+          {{ bri / 254 * 100 }}
+        unique_id: sensor-living_room_lights_brightness_pct
+
+  # Living Room sconce color temp
+  - sensor:
+      - name: Living Room Sconce Color Temp
+        device_class: temperature
+        unit_of_measurement: "K"
+        state: >
+          {{ state_attr('light.living_room_sconce', 'color_temp_kelvin')|int(none) }}
+        unique_id: sensor-living_room_sconce_color_temp_kelvin
+
+  # Living Room sconce brightness
+  - sensor:
+      - name: "Living Room Sconce Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.living_room_sconce', 'brightness')|int(0) %}
+          {{ bri / 254 * 100 }}
+        unique_id: sensor-living_room_sconce_brightness_pct
+
+  # Porch light brightness
+  - sensor:
+      - name: "Porch Light Brightness"
+        unit_of_measurement: "%"
+        state: >
+          {% set bri = state_attr('light.porch_light', 'brightness')|int(0) %}
+          {{ bri / 254 * 100 }}
+        unique_id: sensor-porch_light_brightness_pct

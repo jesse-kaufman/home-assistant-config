@@ -1,0 +1,75 @@
+################################################################
+# Mower Camera
+################################################################
+
+################################################################
+# Input Texts
+#
+input_text:
+  mower_camera_last_ai_event_description:
+    name: Mower Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Templates
+#
+template:
+  # MOWER NAME
+  - sensor:
+      - name: Mower Camera Name
+        state: "Mower"
+        unique_id: sensor-mower_camera_name
+
+  # mower MODEL NAME
+  - sensor:
+      - name: Mower Camera Model name
+        state: "SoloCam S40 / eufyCam S230"
+        unique_id: sensor-mower_camera_model_name
+
+  # MOWER MODEL NUMBER
+  - sensor:
+      - name: Mower Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.mower_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.mower_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-mower_camera_model_number
+
+  # MOWER FIRMWARE
+  - sensor:
+      - name: Mower Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.mower_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.mower_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-mower_camera_firmware_revision
+
+  # Mower
+  - image:
+      - name: Mower Camera Last motion (AI)
+        unique_id: image-mower_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/mower/mower-motion-ai.jpg?{{ states('input_datetime.mower_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last vehicle (AI)
+        unique_id: image-mower_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/mower/mower-vehicle-ai.jpg?{{ states('input_datetime.mower_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last pet (AI)
+        unique_id: image-mower_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/mower/mower-pet-ai.jpg?{{ states('input_datetime.mower_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last known person (AI)
+        unique_id: image-mower_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/mower/mower-known-person-ai.jpg?{{ states('input_datetime.mower_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last person (AI)
+        unique_id: image-mower_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/mower/mower-person-ai.jpg?{{ states('input_datetime.mower_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last AI event
+        unique_id: image-mower_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/mower/mower-ai-event.jpg?{{ states('input_datetime.mower_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Mower Camera Last snapshot
+        unique_id: image-mower_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/mower/mower.jpg?{{ states('input_datetime.mower_camera_last_snapshot') | as_timestamp(0) }}

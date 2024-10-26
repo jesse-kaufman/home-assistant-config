@@ -1,0 +1,115 @@
+################################################################
+# Driveway Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  driveway_camera_last_ai_event_description:
+    name: Driveway Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Lights
+#
+light:
+  - platform: template
+    lights:
+      driveway_camera_light:
+        unique_id: light-driveway_camera_light
+        friendly_name: "Driveway Camera Light"
+        level_template: >-
+          {% if is_state('select.driveway_camera_light_brightness_manual','low') %}
+            33
+          {% elif is_state('select.driveway_camera_light_brightness_manual','medium') %}
+            66
+          {% elif is_state('select.driveway_camera_light_brightness_manual','high') %}
+            100
+          {% endif %}
+        value_template: "{{ states('switch.driveway_camera_light') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.driveway_camera_light
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.driveway_camera_light
+        set_level:
+          service: select.select_option
+          data:
+            entity_id: select.driveway_camera_light_brightness_manual
+            option: >-
+              {% set level = ((brightness / 255) * 100) | int %}
+              {% if level <= 33 %}
+                low
+              {% elif level <= 66 %}
+                medium
+              {% else %}
+                high
+              {% endif %}
+
+################################################################
+# Templates
+#
+template:
+  # DRIVEWAY NAME
+  - sensor:
+      - name: Driveway Camera Name
+        state: "Driveway"
+        unique_id: sensor-driveway_camera_name
+
+  # DRIVEWAY MODEL NAME
+  - sensor:
+      - name: Driveway Camera Model name
+        state: "eufyCam 3C / eufyCam S300"
+        unique_id: sensor-driveway_camera_model_name
+
+  # DRIVEWAY MODEL NUMBER
+  - sensor:
+      - name: Driveway Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.driveway_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.driveway_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-driveway_camera_model_number
+
+  # DRIVEWAY FIRMWARE
+  - sensor:
+      - name: Driveway Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.driveway_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.driveway_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-driveway_camera_firmware_revision
+
+  # Driveway Camera camera
+  - image:
+      - name: Driveway Camera Last Motion (AI)
+        unique_id: image-driveway_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-motion-ai.jpg?{{ states('input_datetime.driveway_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last Person (AI)
+        unique_id: image-driveway_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-person-ai.jpg?{{ states('input_datetime.driveway_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last Known Person (AI)
+        unique_id: image-driveway_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-known-person-ai.jpg?{{ states('input_datetime.driveway_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last Pet (AI)
+        unique_id: image-driveway_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-pet-ai.jpg?{{ states('input_datetime.driveway_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last Vehicle (AI)
+        unique_id: image-driveway_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-vehicle-ai.jpg?{{ states('input_datetime.driveway_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last Snapshot
+        unique_id: image-driveway_camera_snapshot
+        url: http://localhost:8123/local/images/cameras/driveway/driveway.jpg?{{ states('input_datetime.driveway_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Driveway Camera Last AI Event
+        unique_id: image-driveway_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/driveway/driveway-ai-event.jpg?{{ states('input_datetime.driveway_camera_last_ai_event') | as_timestamp(0) }}

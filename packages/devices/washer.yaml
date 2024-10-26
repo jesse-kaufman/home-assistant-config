@@ -1,0 +1,11 @@
+################################################################
+# Washing machine
+################################################################
+
+template:
+  # Wet clothes in washing machine
+  - binary_sensor:
+      - unique_id: binary_sensor-wet_clothes_in_washing_machine
+        name: "Wet Clothes in Washing Machine"
+        state: >-
+          {{ states('input_boolean.wet_clothes_in_washing_machine_input') }}

@@ -1,0 +1,9 @@
+lock:
+  templates:
+    icon_color: >
+      if (state === 'locked') return 'var(--error-color)';
+      return 'var(--green-color)';
+    icon: >
+      if (state === 'locked') return 'mdi:lock';
+      if (state === 'unknown' || state === 'unavailable') return 'mdi:lock-alert';
+      return 'mdi:lock-open-variant'

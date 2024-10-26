@@ -1,0 +1,20 @@
+sensor:
+  # CAMERA BATTERY CHARGER 1 AVG POWER
+  - platform: filter
+    name: "Camera Battery Charger 1 Average Power"
+    entity_id: sensor.camera_battery_charger_1_power
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:02"
+        precision: 1
+    unique_id: sensor-camera_battery_charger_1_average_power
+
+  # CAMERA BATTERY CHARGER 2 AVG POWER
+  - platform: filter
+    name: "Camera Battery Charger 2 Average Power"
+    entity_id: sensor.camera_battery_charger_2_power
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:02"
+        precision: 1
+    unique_id: sensor-camera_battery_charger_2_average_power

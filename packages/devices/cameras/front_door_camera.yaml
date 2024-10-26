@@ -1,0 +1,77 @@
+################################################################
+# Front Door Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  front_door_camera_last_ai_event_description:
+    name: Front Door Camera Last AI Event Description
+    max: 255
+  front_door_camera_last_person_name:
+    name: Front Door Camera Last Person Name
+
+################################################################
+# Templates
+#
+template:
+  # FRONT DOOR NAME
+  - sensor:
+      - name: Front Door Camera Name
+        state: "Front Door"
+        unique_id: sensor-front_door_camera_name
+
+  # front_door MODEL NAME
+  - sensor:
+      - name: Front Door Camera Model name
+        state: "eufyCam 3C / eufyCam S300"
+        unique_id: sensor-front_door_camera_model_name
+
+  # front_door MODEL NUMBER
+  - sensor:
+      - name: Front Door Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.front_door_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.front_door_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-front_door_camera_model_number
+
+  # Front Door FIRMWARE
+  - sensor:
+      - name: Front Door Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.front_door_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.front_door_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-front_door_camera_firmware_revision
+
+  # Front Door
+  - image:
+      - name: Front Door Camera Last motion (AI)
+        unique_id: image-front_door_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-motion-ai.jpg?{{ states('input_datetime.front_door_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last vehicle (AI)
+        unique_id: image-front_door_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-vehicle-ai.jpg?{{ states('input_datetime.front_door_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last pet (AI)
+        unique_id: image-front_door_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-pet-ai.jpg?{{ states('input_datetime.front_door_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last known person (AI)
+        unique_id: image-front_door_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-known-person-ai.jpg?{{ states('input_datetime.front_door_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last person (AI)
+        unique_id: image-front_door_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-person-ai.jpg?{{ states('input_datetime.front_door_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last AI event
+        unique_id: image-front_door_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/front_door/front_door-ai-event.jpg?{{ states('input_datetime.front_door_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Front Door Camera Last snapshot
+        unique_id: image-front_door_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/front_door/front_door.jpg?{{ states('input_datetime.front_door_camera_last_snapshot') | as_timestamp(0) }}

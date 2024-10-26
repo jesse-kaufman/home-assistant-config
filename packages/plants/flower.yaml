@@ -1,0 +1,175 @@
+################################################################
+# Flower
+################################################################
+
+################################################################
+# Customize entities
+#
+homeassistant:
+  customize:
+    switch.flower_water_pump:
+      icon: mdi:water-pump
+    switch.flower_mixing_pump:
+      icon: mdi:pot-mix
+    sensor.flower_water_level_sensor_water_level:
+      icon: |
+        {% set level = states('sensor.flower_water_level_sensor_water_level') | int(-1) %}
+        {% if level > 60 %}
+          mdi:gauge-full
+        {% elif level > 30 %}
+          mdi:gauge
+        {% elif level > states('input_number.flower_water_level_sensor_low_alarm_threshold') | int %}
+          mdi:gauge-low
+        {% elif level == 0 %}
+          mdi:gauge-empty
+        {% endif %}
+
+###############################################################
+# Filter sensors
+#
+sensor:
+  - platform: filter
+    name: "Flower Water Level Sensor Current depth (5m moving average)"
+    entity_id: sensor.flower_water_level_sensor_liquid_depth
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:05"
+        precision: 1
+    unique_id: sensor-flower_water_level_sensor_current_depth_2m_moving_average
+  - platform: filter
+    name: "Flower Water Level Sensor Current depth (10m moving average)"
+    entity_id: sensor.flower_water_level_sensor_liquid_depth
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:10"
+        precision: 1
+    unique_id: sensor-flower_water_level_sensor_current_depth_10m_moving_average
+
+################################################################
+# Templates
+#
+template:
+  # Flower light threshold sensor
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_threshold_light
+        name: "Flower Threshold: Light"
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused', 'off') and states('light.flower_light') != states('binary_sensor.flower_light_schedule') %}
+              on
+          {% else %}
+              off
+          {% endif %}
+
+  # Flower water level threshold
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_threshold_water_level
+        name: "Flower Threshold: Water Level"
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% set curr = states('sensor.flower_water_level_sensor_water_level') | int(-1) %}
+            {% set low = states('input_number.flower_water_level_sensor_low_alarm_threshold') | int(-1) %}
+            {% if curr > 0 and curr <= low %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+        attributes:
+          water_level: |
+            {{ states('sensor.flower_water_level_sensor_water_level',rounded=True,with_unit=True) }}
+          low_alarm_threshold: |
+            {{ states('input_number.flower_water_level_sensor_low_alarm_threshold') | round }} %
+          depth: |
+            {{ states('sensor.flower_water_level_sensor_current_depth_2m_moving_average',rounded=True,with_unit=True) }}
+
+  # Flower humidity threshold
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_threshold_humidity
+        name: "Flower Threshold: Humidity"
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% if is_state('binary_sensor.flower_humidity_low','on') or is_state('binary_sensor.flower_humidity_high','on') %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # Flower humidity low
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_humidity_low
+        name: Flower Humidity Low
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% set curr = states('sensor.flower_humidity') | int(-1) %}
+            {% if curr < 35 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # Flower humidity high
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_humidity_high
+        name: Flower Humidity High
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% set curr = states('sensor.flower_humidity') | int(-1) %}
+            {% if curr > 65 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # Flower temperature high
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_temperature_high
+        name: Flower Temperature High
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% set curr = states('sensor.flower_temperature') | int(-99) %}
+            {% if curr > 0 and curr > 98 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # Flower temperature low
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_temperature_low
+        name: Flower Temperature Low
+        state: >-
+          {% if is_state('input_boolean.flower_schedule_paused','on') %}
+            off
+          {% else %}
+            {% set curr = states('sensor.flower_temperature') | int(-99) %}
+            {% if curr > -99 and curr < 60 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+  # Flower temperature threshold
+  - binary_sensor:
+      - unique_id: binary_sensor-flower_threshold_temperature
+        name: "Flower Threshold: Temperature"
+        state: >-
+          {% if is_state('binary_sensor.flower_temperature_low','on') or is_state('binary_sensor.flower_temperature_high','on') %}
+            on
+          {% else %}
+            off
+          {% endif %}

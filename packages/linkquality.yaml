@@ -1,0 +1,45 @@
+sensor:
+  - platform: filter
+    name: "Bathroom Presence Sensor Linkquality"
+    entity_id: sensor.bathroom_presence_sensor_linkquality_raw
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01:00"
+        precision: 0
+    unique_id: sensor-bathroom_presence_sensor_linkquality
+
+  - platform: filter
+    name: "Bedroom Desk Presence Sensor Linkquality"
+    entity_id: sensor.bedroom_desk_presence_sensor_linkquality_raw
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01:00"
+        precision: 0
+    unique_id: sensor-bedroom_desk_presence_sensor_linkquality
+
+  - platform: filter
+    name: "Kitchen Presence Sensor Linkquality"
+    entity_id: sensor.kitchen_presence_sensor_linkquality_raw
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01:00"
+        precision: 0
+    unique_id: sensor-kitchen_presence_sensor_linkquality
+
+  - platform: filter
+    name: "Dining Room Presence Sensor Linkquality"
+    entity_id: sensor.dining_room_presence_sensor_linkquality_raw
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01:00"
+        precision: 0
+    unique_id: sensor-dining_room_presence_sensor_linkquality
+
+  - platform: filter
+    name: "Living Room Presence Sensor Linkquality"
+    entity_id: sensor.living_room_presence_sensor_linkquality_raw
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01:00"
+        precision: 0
+    unique_id: sensor-living_room_presence_sensor_linkquality

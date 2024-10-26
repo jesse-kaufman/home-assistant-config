@@ -1,0 +1,27 @@
+sensor:
+  - platform: history_stats
+    unique_id: sensor-dining_room_tv_hours_on_today
+    name: Dining Room TV Hours On Today
+    entity_id: binary_sensor.dining_room_tv_on
+    state: "on"
+    type: time
+    start: "{{ today_at() }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    unique_id: sensor-living_room_tv_hours_on_today
+    name: Living Room TV Hours On Today
+    entity_id: binary_sensor.living_room_tv_on
+    state: "on"
+    type: time
+    start: "{{ today_at() }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    unique_id: sensor-bedroom_tv_hours_on_today
+    name: Bedroom TV Hours On Today
+    entity_id: binary_sensor.bedroom_tv_on
+    state: "on"
+    type: time
+    start: "{{ today_at() }}"
+    end: "{{ now() }}"

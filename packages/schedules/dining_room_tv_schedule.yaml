@@ -1,0 +1,19 @@
+################################################################
+# Dining Room TV Schedule
+################################################################
+
+template:
+  - binary_sensor:
+      - unique_id: binary_sensor-dining_room_tv_schedule
+        name: "Dining Room TV Schedule"
+        icon: mdi:lightbulb-auto
+        state: >-
+          {% set start = as_timedelta(states('input_datetime.dining_room_tv_outlet_on_time')) %}
+          {% set end = as_timedelta(states('input_datetime.dining_room_tv_outlet_off_time')) %}
+          {% set current = as_timedelta(now().strftime('%H:%M:%S')) %}
+
+          {% if start <= current < end %}
+            on
+          {% else %}
+            off
+          {% endif %}

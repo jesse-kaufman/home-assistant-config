@@ -1,0 +1,26 @@
+################################################################
+# Microwave
+################################################################
+
+template:
+  - sensor:
+      - name: "Microwave"
+        state: >-
+          {% if (is_state('binary_sensor.microwave_door_contact_sensor_contact', 'on')) %}
+            open
+          {% elif (is_state('binary_sensor.microwave_running','on')) %}
+            running
+          {% elif (is_state('input_boolean.kitchen_food_in_microwave','on')) %}
+            occupied
+          {% elif (is_state('switch.microwave_outlet','off')) %}
+            off
+          {% else %}
+            idle
+          {% endif %}
+        icon: >-
+          {% if (is_state(this.entity_id,'off')) %}
+            mdi:microwave-off
+          {% else %}
+            mdi:microwave
+          {% endif %}
+        unique_id: sensor-microwave

@@ -1,0 +1,108 @@
+################################################################
+# AutoMower
+################################################################
+
+homeassistant:
+  customize:
+    device_tracker.automower_zone_nodered:
+      friendly_name: AUTOMOWER Yard Zone
+      entity_picture: /local/images/devices/mower.jpg
+    lawn_mower.automower:
+      icon: mdi:robot-mower-outline
+
+################################################################
+# Templates
+#
+template:
+  #
+  # BINARY SENSORS
+  #
+  - binary_sensor:
+      # AUTOMOWER RUNNING
+      - unique_id: binary_sensor-automower_running
+        name: AUTOMOWER® 115H Running
+        state: >-
+          {% if is_state('lawn_mower.automower','mowing') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+      # AUTOMOWER ERROR
+      - unique_id: binary_sensor-automower_error
+        name: AUTOMOWER Error
+        state: >-
+          {% if is_state('lawn_mower.automower', 'error') and not is_state('sensor.automower_error','no_error') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  #
+  # SENSORS
+  #
+  - sensor:
+      # MOWER LATITUDE
+      - unique_id: sensor-automower_lat
+        name: AUTOMOWER Latitude
+        state: >-
+          {{ state_attr('device_tracker.automower', 'latitude') }}
+
+      # MOWER LONGITUDE
+      - unique_id: sensor-automower_long
+        name: AUTOMOWER Longitude
+        state: >-
+          {{ state_attr('device_tracker.automower', 'longitude') }}
+
+      # MOWER STATUS
+      - name: AUTOMOWER® 115H Status
+        unique_id: sensor-automower_status
+        state: >-
+          {% if is_state('input_boolean.automower_paused_for_winter', 'on') %}
+            Winter
+          {% elif is_state('binary_sensor.automower_error', 'on') %}
+            {{ state_translated('sensor.automower_error') }}
+          {% elif is_state('binary_sensor.automower_leaving_dock','on') %}
+            Leaving dock
+          {% elif is_state('binary_sensor.automower_charging','on') %}
+            Charging
+          {% elif is_state('input_boolean.automower_rain_delay','on') %}
+            Rain delay
+          {% elif is_state('binary_sensor.automower_returning_to_dock','on') %}
+            Returning
+          {% elif is_state('lawn_mower.automower','mowing') %}
+            Mowing
+          {% elif not is_state('sensor.automower_restricted_reason', 'not_applicable') %}
+            {{ state_translated('sensor.automower_restricted_reason') }}
+          {% elif is_state('binary_sensor.automower_error', 'off') and is_state('sensor.automower_restricted_reason', 'not_applicable') %}
+            Stopped
+          {% else %}
+            {{ state_translated('lawn_mower.automower') }}
+          {% endif %}
+
+      # MOWER NEXT START (RELATIVE)
+      - name: AUTOMOWER® 115H Next start (relative)
+        state: >-
+          {% if has_value('sensor.automower_next_start') %}
+            {% set current_time = now() %}
+            {% set next_start = as_local(as_datetime(states('sensor.automower_next_start'))) %}
+            {% set time_delta = next_start - current_time %}
+            {% if (current_time - time_delta) < current_time %}
+              {{ relative_time(current_time - time_delta) }}
+            {% elif time_delta.total_seconds() >= 0 %}
+              soon
+            {% endif %}
+          {% else %}
+            unknown
+          {% endif %}
+        attributes:
+          delta: >-
+            {% if has_value('sensor.automower_next_start') %}
+              {% set current_time = now() %}
+              {% set next_start = as_local(as_datetime(states('sensor.automower_next_start'))) %}
+              {% set time_delta = next_start - current_time %}
+              {{ time_delta }}
+            {% else %}
+              unknown
+            {% endif %}
+        unique_id: sensor-automower_next_start_relative

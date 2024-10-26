@@ -1,0 +1,45 @@
+################################################################
+# Battery-related entities
+################################################################
+
+template:
+  # BATTERIES
+  - binary_sensor:
+      - unique_id: binary_sensor-low_batteries
+        name: Low Batteries
+        state: >
+          {% set ns = namespace(count=0) %}
+          {% for s in states.binary_sensor %}
+            {% if '_battery_plus_low' in s.entity_id and is_state(s.entity_id,'on') %}
+              {% if 'phone' not in s.entity_id and 'tablet' not in s.entity_id %}
+                {% set ns.count = ns.count + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if ns.count > 0 %}
+            on
+          {% else %}
+            off
+          {% endif %}
+        attributes:
+          count: >
+            {% set ns = namespace(count=0) %}
+            {% for s in states.binary_sensor %}
+              {% if '_battery_plus_low' in s.entity_id and is_state(s.entity_id,"on") %}
+                {% if 'phone' not in s.entity_id and 'tablet' not in s.entity_id %}
+                  {% set ns.count = ns.count + 1 %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {{ ns.count }}
+          devices: >
+            {% set ns = namespace(below=[]) %}
+            {% for s in states.binary_sensor %}
+              {% if '_battery_plus_low' in s.entity_id and is_state(s.entity_id,"on") %}
+                {% if 'phone' not in s.entity_id %}
+                  {% set e = s.entity_id | replace("_low", "") | replace("binary_", "") %}
+                  {% set ns.below = ns.below + [ state_attr(e,'friendly_name') ~ ' (' ~ states(e) ~ '%)'] %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {{ ns.below | join(" .. ") }}

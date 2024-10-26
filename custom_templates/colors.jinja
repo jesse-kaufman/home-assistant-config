@@ -1,0 +1,32 @@
+{% macro mower_colors() %}
+  {% set state = states('sensor.automower_status') %}
+  {% if is_state('binary_sensor.automower_error','on') or (state == 'Stopped') %}
+    red
+  {% elif state == 'Returning' %}
+    purple
+  {% elif state == 'Charging' %}
+    orange
+  {% elif state == 'Rain delay' %}
+    indigo
+  {% elif state == 'Park override' or state == "Idle" or is_state('lawn_mower.automower','docked') %}
+    grey
+  {% elif state == 'Parked until further notice' %}
+    indigo
+  {% elif state == 'Off' or state == None or state == 'unknown'
+    or state == 'Unavailable' or state == 'Winter' %}
+    disabled
+  {% else %}
+    light-green
+  {% endif %}
+{% endmacro %}
+
+{% macro wifi_rssi_colors(entity_id) %}
+  {% set state = states(entity_id) | int(-99) %}
+  {% if state >= -60 %}
+    var(--green-color)
+  {% elif state >= -80 %}
+    var(--amber-color)
+  {% else %}
+    var(--red-color)
+  {% endif %}
+{% endmacro %}

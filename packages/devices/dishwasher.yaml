@@ -1,0 +1,94 @@
+################################################################
+# Dishwasher and Dishwasher Faucet
+################################################################
+
+################################################################
+# Filter sensors
+#
+sensor:
+  #
+  # DISHWASHER AVG POWER
+  #
+  - platform: filter
+    name: "Dishwasher Outlet 1-minute Average Power"
+    entity_id: sensor.dishwasher_outlet_power
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:01"
+        precision: 1
+    unique_id: sensor-dishwasher_outlet_2_minute_average_power
+
+################################################################
+# Templates
+#
+template:
+  #
+  # Template binary sensors
+  #
+  - binary_sensor:
+      #
+      # DISHWASHER FAUCET
+      #
+      - unique_id: binary_sensor-dishwasher_faucet
+        attributes:
+          icon_color: >
+            {{'var(--alert-color)' if this.state == "off" else 'var(--primary-color)'}}
+        name: Dishwasher Faucet
+        state: >-
+          {% if is_state('binary_sensor.dishwasher_faucet_contact','on') %}
+            off
+          {% elif is_state('binary_sensor.dishwasher_faucet_contact','off') %}
+            on
+          {% endif %}
+        icon: >-
+          {% if is_state('binary_sensor.dishwasher_faucet_contact','on') %}
+            mdi:water-pump-off
+          {% elif is_state('binary_sensor.dishwasher_faucet_contact','off') %}
+            mdi:water-pump
+          {% endif %}
+
+  #
+  # Template sensors
+  #
+  - sensor:
+      #
+      # DISHWASHER
+      #
+      - unique_id: sensor-dishwasher
+        name: "Dishwasher"
+        state: >-
+          {% if is_state('switch.dishwasher_outlet','off') %}
+            off
+          {% elif is_state('binary_sensor.dishwasher_door_contact_sensor_contact','on') %}
+            open
+          {% elif is_state('input_boolean.dishwasher_running','on') %}
+            {% if is_state('timer.dishwasher_drying_timer','active') %}
+              drying
+            {% elif states('sensor.dishwasher_outlet_power') | float(0) > 300 %}
+              heat/wash
+            {% elif states('sensor.dishwasher_outlet_1_minute_average_power') | float(0) > 3 %}
+              washing
+            {% elif is_state('input_boolean.dishwasher_draining','on') %}
+              drain/fill
+            {% elif is_state('input_boolean.dishwasher_paused','on') %}
+              paused
+            {% else %}
+              washing
+            {% endif %}
+          {% elif is_state('input_boolean.dishwasher_done','on') %}
+            done
+          {% else %}
+            idle
+          {% endif %}
+        icon: >-
+          {% if is_state('switch.dishwasher_outlet','off') %}
+            mdi:dishwasher-off
+          {% elif is_state('input_boolean.dishwasher_done','on') %}
+            mdi:dishwasher
+          {% elif is_state('binary_sensor.dishwasher_door_contact_sensor_contact','on') %}
+            cil:dishwasher-silverware
+          {% elif is_state('sensor.dishwasher','idle') %}
+            cil:dishwasher-silverware
+          {% else %}
+            mdi:dishwasher
+          {% endif %}

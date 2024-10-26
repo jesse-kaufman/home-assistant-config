@@ -1,0 +1,35 @@
+command_line:
+  - sensor:
+      command: "/usr/local/bin/speedtest --json --secure"
+      name: SpeedTest Data
+      unique_id: speedtest_data
+      command_timeout: 90
+      scan_interval: 3600
+      value_template: "{{ now().timestamp() | timestamp_custom('%B %-d, %Y at %-I:%M %p') }}"
+      json_attributes:
+        - ping
+        - download
+        - upload
+        - server
+template:
+  - sensor:
+      - name: "SpeedTest CLI Ping"
+        unique_id: speedtest_data_ping
+        icon: mdi:speedometer
+        # TIME_MILLISECONDS: Final = "ms"
+        unit_of_measurement: ms
+        state_class: measurement
+        state: "{{ (state_attr('sensor.speedtest_data','ping') | float(-1)) | round(2) }}"
+      - name: "SpeedTest CLI Download"
+        unique_id: speedtest_data_download
+        icon: mdi:speedometer
+        # DATA_RATE_MEGABITS_PER_SECOND: Final = "Mbit/s"
+        unit_of_measurement: Mbit/s
+        state_class: measurement
+        state: "{{ ((state_attr('sensor.speedtest_data','download') | float(-1)) / 1000 / 1000) | round(2) }}"
+      - name: "SpeedTest CLI Upload"
+        unique_id: speedtest_data_upload
+        icon: mdi:speedometer
+        unit_of_measurement: Mbit/s
+        state_class: measurement
+        state: "{{ ((state_attr('sensor.speedtest_data','upload') | float(-1)) / 1000 / 1000) | round(2) }}"

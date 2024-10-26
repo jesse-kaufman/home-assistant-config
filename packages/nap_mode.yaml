@@ -1,0 +1,40 @@
+################################################################
+# Nap Mode sensors
+################################################################
+
+template:
+  # BEDROOM NAP MODE
+  - binary_sensor:
+      - unique_id: binary_sensor-bedroom_nap_mode
+        name: "Bedroom Nap Mode"
+        state: >-
+          {% if is_state('input_boolean.bedroom_lights_paused','on')
+            and is_state('input_boolean.bedroom_echo_notifications_paused','on') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # LIVING ROOM NAP MODE
+  - binary_sensor:
+      - unique_id: binary_sensor-living_room_nap_mode
+        name: "Living Room Nap Mode"
+        state: >-
+          {% if is_state('input_boolean.living_room_lights_paused','on')
+            and is_state('input_boolean.living_room_echo_notifications_paused','on') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # DINING ROOM NAP MODE
+  - binary_sensor:
+      - unique_id: binary_sensor-dining_room_nap_mode
+        name: "Dining Room Nap Mode"
+        state: >-
+          {% if is_state('input_boolean.dining_room_lights_paused','on')
+            and is_state('input_boolean.dining_room_echo_notifications_paused','on') %}
+            on
+          {% else %}
+            off
+          {% endif %}

@@ -1,0 +1,65 @@
+################################################################
+# Garage Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  garage_camera_last_ai_event_description:
+    name: Garage Camera Last AI Event Description
+    max: 255
+  garage_camera_last_person_name:
+    name: Garage Camera Last Person Name
+
+################################################################
+# Templates
+#
+template:
+  # GARAGE EAST NAME
+  - sensor:
+      - name: Garage Camera Name
+        state: "Garage"
+        unique_id: sensor-garage_camera_name
+
+  # Garage Camera MODEL NAME
+  - sensor:
+      - name: Garage Camera Model name
+        state: "SoloCam Pro"
+        unique_id: sensor-garage_camera_model_name
+
+  # Garage Camera MODEL NUMBER
+  - sensor:
+      - name: Garage Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.garage_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.garage_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-garage_camera_model_number
+
+  # Garage Camera FIRMWARE
+  - sensor:
+      - name: Garage Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.garage_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.garage_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-garage_camera_firmware_revision
+
+  # Garage Camera
+  - image:
+      - name: Garage Camera last motion (AI)
+        unique_id: image-garage_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/garage/garage-motion-ai.jpg?{{ states('input_datetime.garage_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage Camera last person (AI)
+        unique_id: image-garage_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/garage/garage-person-ai.jpg?{{ states('input_datetime.garage_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage Camera last AI event
+        unique_id: image-garage_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/garage/garage-ai-event.jpg?{{ states('input_datetime.garage_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Garage Camera last snapshot
+        unique_id: image-garage_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/garage/garage.jpg?{{ states('input_datetime.garage_camera_last_snapshot') | as_timestamp(0) }}

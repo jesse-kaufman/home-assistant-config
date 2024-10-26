@@ -1,0 +1,136 @@
+################################################################
+# Echo Device Notifications
+################################################################
+
+template:
+  # BEDROOM ECHO NOTIFICATIONS SCHEDULE
+  - binary_sensor:
+      - unique_id: binary_sensor-bedroom_echo_notifications
+        name: "Bedroom Echo Notifications"
+        icon: >-
+          {% if is_state(this.entity_id, "on") %}
+            mdi:speaker-message
+          {% else %}
+            mdi:speaker-pause
+          {% endif %}
+        state: >-
+          {% set start = as_timedelta(states('input_datetime.bedroom_auto_lights_start_time')) %}
+          {% set end = as_timedelta(states('input_datetime.bedroom_auto_lights_end_time')) %}
+          {% set current = as_timedelta(now().strftime('%H:%M:%S')) %}
+          {% set offset = states('input_number.bedroom_echo_lights_weekend_offset_minutes') | int  %}
+          {% set weekday = now().strftime('%A') %}
+
+          {# Start later on Sunday and Saturday #}
+          {% if weekday == "Sunday" or weekday == "Saturday" %}
+            {% set start = start + timedelta(minutes=offset) %}
+          {% endif %}
+
+          {# End later on Friday and Saturday #}
+          {% if weekday == "Friday" or weekday == "Saturday" %}
+            {% set end = end + timedelta(minutes=offset) %}
+          {% endif %}
+                  
+          {% if start <= current < end %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # LIVING ROOM ECHO NOTIFICATIONS SCHEDULE
+  - binary_sensor:
+      - unique_id: binary_sensor-living_room_echo_notifications
+        name: "Living Room Echo Notifications"
+        icon: >-
+          {% if is_state(this.entity_id, "on") %}
+            mdi:speaker-message
+          {% else %}
+            mdi:speaker-pause
+          {% endif %}
+        state: >-
+          {% set start = as_timedelta(states('input_datetime.living_room_echo_notifications_start_time')) %}
+          {% set end = as_timedelta(states('input_datetime.living_room_echo_notifications_end_time')) %}
+          {% set current = as_timedelta(now().strftime('%H:%M:%S')) %}
+          {% set offset = states('input_number.living_room_echo_lights_weekend_offset_minutes') | int  %}
+          {% set weekday = now().strftime('%A') %}
+
+          {# Start later on Sunday and Saturday #}
+          {% if weekday == "Sunday" or weekday == "Saturday" %}
+            {% set start = start + timedelta(minutes=offset) %}
+          {% endif %}
+
+          {# End later on Friday and Saturday #}
+          {% if weekday == "Friday" or weekday == "Saturday" %}
+            {% set end = end + timedelta(minutes=offset) %}
+          {% endif %}
+                  
+          {% if start <= current < end %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # KITCHEN ECHO NOTIFICATIONS SCHEDULE
+  - binary_sensor:
+      - unique_id: binary_sensor-kitchen_echo_notifications
+        name: "Kitchen Echo Notifications"
+        icon: >-
+          {% if is_state(this.entity_id, "on") %}
+            mdi:speaker-message
+          {% else %}
+            mdi:speaker-pause
+          {% endif %}
+        state: >-
+          {% set start = as_timedelta(states('input_datetime.kitchen_echo_notifications_start_time')) %}
+          {% set end = as_timedelta(states('input_datetime.kitchen_echo_notifications_end_time')) %}
+          {% set current = as_timedelta(now().strftime('%H:%M:%S')) %}
+          {% set offset = states('input_number.kitchen_echo_notifications_weekend_offset_minutes') | int  %}
+          {% set weekday = now().strftime('%A') %}
+
+          {# Start later on Sunday and Saturday #}
+          {% if weekday == "Sunday" or weekday == "Saturday" %}
+            {% set start = start + timedelta(minutes=offset) %}
+          {% endif %}
+
+          {# End later on Friday and Saturday #}
+          {% if weekday == "Friday" or weekday == "Saturday" %}
+            {% set end = end + timedelta(minutes=offset) %}
+          {% endif %}
+                  
+          {% if start <= current < end %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # DINING ROOM ECHO NOTIFICATIONS SCHEDULE
+  - binary_sensor:
+      - unique_id: binary_sensor-dining_room_echo_notifications
+        name: "Dining Room Echo Notifications"
+        icon: >-
+          {% if is_state(this.entity_id, "on") %}
+            mdi:speaker-message
+          {% else %}
+            mdi:speaker-pause
+          {% endif %}
+        state: >-
+          {% set start = as_timedelta(states('input_datetime.dining_room_echo_notifications_start_time')) %}
+          {% set end = as_timedelta(states('input_datetime.dining_room_echo_notifications_end_time')) %}
+          {% set current = as_timedelta(now().strftime('%H:%M:%S')) %}
+          {% set offset = states('input_number.dining_room_echo_notifications_weekend_offset_minutes') | int  %}
+          {% set weekday = now().strftime('%A') %}
+
+          {# Start later on Sunday and Saturday #}
+          {% if weekday == "Sunday" or weekday == "Saturday" %}
+            {% set start = start + timedelta(minutes=offset) %}
+          {% endif %}
+
+          {# End later on Friday and Saturday #}
+          {% if weekday == "Friday" or weekday == "Saturday" %}
+            {% set end = end + timedelta(minutes=offset) %}
+          {% endif %}
+                  
+          {% if start <= current < end %}
+            on
+          {% else %}
+            off
+          {% endif %}

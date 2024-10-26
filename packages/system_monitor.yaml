@@ -1,0 +1,12 @@
+# # SYSTEM MONITOR
+# sensor:
+#   - platform: systemmonitor
+#     resources:
+#       - type: network_in
+#         arg: eth0
+#       - type: network_out
+#         arg: eth0
+#       - type: throughput_network_in
+#         arg: eth0
+#       - type: throughput_network_out
+#         arg: eth0

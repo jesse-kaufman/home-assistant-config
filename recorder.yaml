@@ -1,0 +1,30 @@
+purge_keep_days: 120
+exclude:
+  entity_globs:
+    - sensor.*_target_distance
+    - sensor.*_range
+    - sensor.*_fading_time
+    - sensor.*_radar_sensitivity
+    - sensor.*_detection_delay
+    - sensor.*_maximum_range
+    - sensor.*_minimum_range
+    - switch.*_dot_do_not_disturb
+    - switch.*_fan
+    - sensor.*video_queue_size
+    - light.*_fan
+    - switch.*light
+    - switch.*lamp
+    - sensor.*_last_seen
+    - sensor.*_voltage
+    - sensor.*_current
+    - sensor.watchman*
+    - sensor.*_linkquality_raw
+    - sensor.*_raw
+    - sensor.status_date
+    - sensor.date_and_time
+  domains:
+    - update
+    - automation
+    - script
+    - weather
+    - sun

@@ -1,0 +1,79 @@
+################################################################
+# Porch Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  porch_camera_last_ai_event_description:
+    name: Porch Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Templates
+#
+template:
+  # PORCH NAME
+  - sensor:
+      - name: Porch Camera Name
+        state: "Porch"
+        unique_id: sensor-porch_camera_name
+
+  # PORCH MODEL NAME
+  - sensor:
+      - name: Porch Camera Model name
+        state: "eufyCam E330 Professional"
+        unique_id: sensor-porch_camera_model_name
+
+        # PORCH MODEL NUMBER
+  - sensor:
+      - name: Porch Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.porch_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.porch_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-porch_camera_model_number
+
+        # PORCH FIRMWARE
+  - sensor:
+      - name: Porch Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.porch_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.porch_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-porch_camera_firmware_revision
+
+  # Porch camera
+  - image:
+      - name: Porch Last Motion (AI)
+        unique_id: image-porch_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/porch/porch-motion-ai.jpg?{{ states('input_datetime.porch_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last Person (AI)
+        unique_id: image-porch_last_person_ai
+        url: http://localhost:8123/local/images/cameras/porch/porch-person-ai.jpg?{{ states('input_datetime.porch_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last Known Person (AI)
+        unique_id: image-porch_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/porch/porch-known-person-ai.jpg?{{ states('input_datetime.porch_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last Pet (AI)
+        unique_id: image-porch_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/porch/porch-pet-ai.jpg?{{ states('input_datetime.porch_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last Vehicle (AI)
+        unique_id: image-porch_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/porch/porch-vehicle-ai.jpg?{{ states('input_datetime.porch_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Porch last mailbox open
+        unique_id: image-porch_last_mailbox_open
+        url: http://localhost:8123/local/images/cameras/porch/porch-mailbox_open.jpg?{{ states('input_datetime.porch_camera_last_mailbox_open') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last Snapshot
+        unique_id: image-porch_last_snapshot
+        url: http://localhost:8123/local/images/cameras/porch/porch.jpg?{{ states('input_datetime.porch_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Porch Last AI Event
+        unique_id: image-porch_last_ai_event
+        url: http://localhost:8123/local/images/cameras/porch/porch-ai-event.jpg?{{ states('input_datetime.porch_camera_last_ai_event') | as_timestamp(0) }}

@@ -1,0 +1,28 @@
+{##
+## Time formatting macros
+##}
+
+{#
+# Returns a human-friendly string containing the time remaining until
+# the given date and time.
+# 
+# E.g.:
+#   - 1h 27m left
+#   - 1h left
+#   - 27m left
+# 
+# Parameters
+# ----------
+# finishes_at: string
+#   The finish time
+#
+# Returns
+# -------
+# string
+#   The formatted duration
+#}
+{% macro format_time_remaining(finishes_at) %}
+  {%- set t = (finishes_at | as_datetime - now()) -%}
+  {% set t = t.total_seconds() -%}
+  {{ t | timestamp_custom('%-Hh %-Mm' if t > 3600 else '%-Mm', false) | replace(' 0m', '') }} left
+{%- endmacro %}

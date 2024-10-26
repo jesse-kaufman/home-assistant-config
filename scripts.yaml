@@ -1,0 +1,112 @@
+cube_mac_brightness_up:
+  alias: 'Cube: Mac Brightness Up'
+  sequence:
+  - service: input_number.set_value
+    data:
+      value: '{{ angle / 22 | round(0) }}'
+    target:
+      entity_id: input_number.mac_brightness_step_counter
+  - repeat:
+      count: '{{ states(''input_number.mac_brightness_step_counter'') | round }}'
+      sequence:
+      - service: script.cube_mac_brightness_up
+        data: {}
+  mode: restart
+  description: Template Dimmer Control
+  variables:
+    angle:
+  icon: mdi:lightbulb-on-60
+cube_mac_brightness_up_duplicate:
+  alias: 'Cube: Mac Brightness Down'
+  sequence:
+  - service: input_number.set_value
+    data:
+      value: '{{ angle / 22 | round(0) }}'
+    target:
+      entity_id: input_number.mac_brightness_step_counter
+  - repeat:
+      count: '{{ states(''input_number.mac_brightness_step_counter'') | round }}'
+      sequence:
+      - service: script.cube_mac_brightness_up_duplicate
+        data: {}
+  mode: restart
+  description: Template Dimmer Control
+  variables:
+    angle:
+  icon: mdi:lightbulb-on-60
+cube_dimmer_control:
+  alias: Cube dimmer control
+  use_blueprint:
+    path: SirGoodenough/dimmer_control_4_magic_cube.yaml
+    input:
+      min_b: 5
+stop_garage_door:
+  alias: Stop Garage Door
+  sequence:
+  - variables:
+      entity_id: cover.{{ door }}_garage_door
+  - event: stop_garage_door
+    event_data:
+      door: '{{ door }}'
+      entity_id: '{{ entity_id }}'
+      state: '{{ states(entity_id) }}'
+  fields:
+    door:
+      selector:
+        select:
+          options:
+          - main
+          - secondary
+      name: Garage Door
+      required: true
+  description: ''
+start_garage_door_timer:
+  alias: Open/Close Garage Door
+  sequence:
+  - variables:
+      entity_id: cover.{{ door }}_garage_door
+      open:
+        '[object Object]':
+      close:
+        '[object Object]':
+  - alias: Open or close door
+    if:
+    - condition: template
+      value_template: '{{ open }}'
+      alias: Action = "open"
+    then:
+    - action: cover.open_cover
+      target:
+        entity_id: cover.{{ door }}_garage_door
+      alias: Open door
+    - action: timer.start
+      target:
+        entity_id: timer.{{ door }}_garage_door_opening_timer
+      alias: Start opening timer
+    else:
+    - action: cover.close_cover
+      target:
+        entity_id: cover.{{ door }}_garage_door
+      alias: Close door
+    - action: timer.start
+      target:
+        entity_id: timer.{{ door }}_garage_door_closing_timer
+      alias: Start closing timer
+  fields:
+    door:
+      selector:
+        select:
+          options:
+          - main
+          - secondary
+      name: Garage Door
+      required: true
+    action:
+      selector:
+        select:
+          options:
+          - open
+          - close
+      name: Action
+      description: Action to perform on garage door
+  description: ''

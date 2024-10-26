@@ -1,0 +1,83 @@
+################################################################
+# Doorbell Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  doorbell_camera_last_ai_event_description:
+    name: Doorbell Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Templates
+#
+template:
+  # DOORBELL NAME
+  - sensor:
+      - name: Doorbell Camera Name
+        state: "Doorbell"
+        unique_id: sensor-doorbell_camera_name
+
+  # DOORBELL MODEL NAME
+  - sensor:
+      - name: Doorbell Camera Model name
+        state: "Doorbell Dual 2K / Doorbell S330"
+        unique_id: sensor-doorbell_camera_model_name
+
+  # DOORBELL MODEL NUMBER
+  - sensor:
+      - name: Doorbell Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.doorbell_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.doorbell_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-doorbell_camera_model_number
+
+  # DOORBELL FIRMWARE
+  - sensor:
+      - name: Doorbell Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.doorbell_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.doorbell_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-doorbell_camera_firmware_revision
+
+  # Doorbell Camera
+  - image:
+      - name: Doorbell Camera Last Motion (AI)
+        unique_id: image-doorbell_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-motion-ai.jpg?{{ states('input_datetime.doorbell_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last Person (AI)
+        unique_id: image-doorbell_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-person-ai.jpg?{{ states('input_datetime.doorbell_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last Known Person (AI)
+        unique_id: image-doorbell_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-known-person-ai.jpg?{{ states('input_datetime.doorbell_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last Pet (AI)
+        unique_id: image-doorbell_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-pet-ai.jpg?{{ states('input_datetime.doorbell_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last Vehicle (AI)
+        unique_id: image-doorbell_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-vehicle-ai.jpg?{{ states('input_datetime.doorbell_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last ring (AI)
+        unique_id: image-doorbell_camera_last_ring
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-ring-ai.jpg?{{ states('input_datetime.doorbell_camera_last_ring_ai') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last Snapshot
+        unique_id: image-doorbell_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell.jpg?{{ states('input_datetime.doorbell_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera last mailbox open
+        unique_id: image-doorbell_camera_last_mailbox_open
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-mailbox_open.jpg?{{ states('input_datetime.doorbell_camera_last_mailbox_open') | as_timestamp(0) }}
+  - image:
+      - name: Doorbell Camera Last AI Event
+        unique_id: image-doorbell_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/doorbell/doorbell-ai-event.jpg?{{ states('input_datetime.doorbell_camera_last_ai_event') | as_timestamp(0) }}

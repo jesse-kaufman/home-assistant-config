@@ -1,0 +1,126 @@
+################################################################
+# Patio Camera
+################################################################
+
+################################################################
+# Groups
+#
+binary_sensor:
+  - platform: group
+    name: "Patio Camera Any Person Detected"
+    device_class: occupancy
+    unique_id: binary_sensor-patio_camera_any_person_detected
+    entities:
+      - binary_sensor.patio_camera_person_detected
+
+################################################################
+# Input texts
+#
+input_text:
+  patio_camera_last_ai_event_description:
+    name: Patio Camera Last AI Event Description
+    max: 255
+  patio_camera_last_person_name:
+    name: Patio Camera Last Person Name
+
+################################################################
+# Input datetime
+#
+input_datetime:
+  patio_camera_last_ai_event:
+    name: Patio Camera Last AI Event
+    has_date: true
+    has_time: true
+  patio_camera_last_person_ai:
+    name: Patio Camera Last Person (AI)
+    has_date: true
+    has_time: true
+  patio_camera_last_known_person_ai:
+    name: Patio Camera Last Known Person (AI)
+    has_date: true
+    has_time: true
+  patio_camera_last_motion_ai:
+    name: Patio Camera Last Motion (AI)
+    has_date: true
+    has_time: true
+  patio_camera_last_pet_ai:
+    name: Patio Camera Last Pet (AI)
+    has_date: true
+    has_time: true
+  patio_camera_last_vehicle_ai:
+    name: Patio Camera Vehicle Pet (AI)
+    has_date: true
+    has_time: true
+  patio_camera_last_snapshot:
+    name: Patio Camera Last Snapshot
+    has_date: true
+    has_time: true
+
+################################################################
+# Input boolean
+#
+input_boolean:
+  start_patio_camera_stream_pressed:
+    name: Start Patio Camera Stream Pressed
+
+################################################################
+# Input buttons
+#
+input_button:
+  start_patio_camera_stream:
+    name: Start Patio Camera Stream
+
+  stop_patio_camera_stream:
+    name: Stop Patio Camera Stream
+
+################################################################
+# Templates
+#
+template:
+  # PATIO CAMERA NAME
+  - sensor:
+      - name: Patio Camera Name
+        state: "Patio"
+        unique_id: sensor-patio_camera_name
+
+  # Patio Camera MODEL NAME
+  - sensor:
+      - name: Patio Camera Model name
+        state: "Doorbell 2K Wired"
+        unique_id: sensor-patio_camera_model_name
+
+  # Patio Camera MODEL NUMBER
+  - sensor:
+      - name: Patio Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.patio_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.patio_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-patio_camera_model_number
+
+  # Patio Camera FIRMWARE
+  - sensor:
+      - name: Patio Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.patio_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.patio_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-patio_camera_firmware_revision
+
+  # Patio Camera
+  - image:
+      - name: Patio Camera last motion (AI)
+        unique_id: image-patio_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/patio/patio-motion-ai.jpg?{{ states('input_datetime.patio_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Patio Camera last person (AI)
+        unique_id: image-patio_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/patio/patio-person-ai.jpg?{{ states('input_datetime.patio_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Patio Camera last AI event
+        unique_id: image-patio_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/patio/patio-ai-event.jpg?{{ states('input_datetime.patio_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Patio Camera last snapshot
+        unique_id: image-patio_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/patio/patio.jpg?{{ states('input_datetime.patio_camera_last_snapshot') | as_timestamp(0) }}

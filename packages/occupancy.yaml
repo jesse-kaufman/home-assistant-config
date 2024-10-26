@@ -1,0 +1,37 @@
+################################################################
+# Occupancy-related sensors
+################################################################
+
+template:
+  # HOME OCCUPIED
+  - binary_sensor:
+      - unique_id: binary_sensor-home_occupied
+        name: "Home Occupied"
+        state: >-
+          {# {{ iif(states('zone.home') | int(-1) > 0, true, false) }} #}
+          {% if is_state('person.jesse','home') or is_state('person.shannon','home') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  # Living Room occupied
+  - binary_sensor:
+      - name: "Living Room Occupied"
+        state: >-
+          {{ states('input_boolean.living_room_occupancy_input') }}
+        unique_id: binary_sensor-living_room_occupied
+
+  # Dining Room occupied
+  - binary_sensor:
+      - name: "Dining Room Occupied"
+        state: >-
+          {{ states('input_boolean.dining_room_occupancy_input') }}
+        unique_id: binary_sensor-dining_room_occupied
+
+  # Kitchen occupied
+  - binary_sensor:
+      - name: "Kitchen Occupied"
+        state: >-
+          {{ states('input_boolean.kitchen_occupancy_input') }}
+        unique_id: binary_sensor-kitchen_occupied

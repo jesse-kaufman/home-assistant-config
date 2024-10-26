@@ -1,0 +1,35 @@
+################################################################
+# Most recent camera images
+################################################################
+
+template:
+  - image:
+      - name: Most Recent Camera Known Person detected
+        unique_id: image-most_recent_camera_known_person_detected
+        url: >-
+          {% set entity = [ 'image.', states('input_text.most_recent_camera_known_person_detected'), '_camera_last_known_person_ai' ] | join %}
+          http://localhost:8123{{ state_attr(entity,'entity_picture') }}&{{ states(entity | replace("image.","input_datetime.")) | as_timestamp(0) }}
+  - image:
+      - name: Most Recent Camera Person detected
+        unique_id: image-most_recent_camera_person_detected
+        url: >-
+          {% set entity = [ 'image.', states('input_text.most_recent_camera_person_detected'), '_camera_last_person_ai' ] | join %}
+          http://localhost:8123{{ state_attr(entity,'entity_picture') }}&{{ states(entity | replace("image.","input_datetime.")) | as_timestamp(0) }}
+  - image:
+      - name: Most Recent Camera Pet detected
+        unique_id: image-most_recent_camera_pet_detected
+        url: >-
+          {% set entity = [ 'image.', states('input_text.most_recent_camera_pet_detected'), '_camera_last_pet_ai' ] | join %}
+          http://localhost:8123{{ state_attr(entity,'entity_picture') }}&{{ states(entity | replace("image.","input_datetime.")) | as_timestamp(0) }}
+  - image:
+      - name: Most Recent Camera Vehicle detected
+        unique_id: image-most_recent_camera_vehicle_detected
+        url: >-
+          {% set entity = [ 'image.', states('input_text.most_recent_camera_vehicle_detected'), '_camera_last_vehicle_ai' ] | join %}
+          http://localhost:8123{{ state_attr(entity,'entity_picture') }}&{{ states(entity | replace("image.","input_datetime.")) | as_timestamp(0) }}
+  - image:
+      - name: Most Recent Camera Motion detected
+        unique_id: image-most_recent_camera_motion_detected
+        url: >-
+          {% set entity = [ 'image.', states('input_text.most_recent_camera_motion_detected'), '_camera_last_motion_ai' ] | join %}
+          http://localhost:8123{{ state_attr(entity,'entity_picture') }}&{{ states(entity | replace("image.","input_datetime.")) | as_timestamp(0) }}

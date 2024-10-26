@@ -1,0 +1,231 @@
+################################################################
+# RoboVac raw sensors
+################################################################
+
+template:
+  # RAW VACUUM MODE
+  - sensor:
+      - unique_id: sensor-robovac_mode_raw
+        name: RoboVac L35 Hybrid Mode (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','mode') | capitalize }}
+
+  # RAW VACUUM BOX TYPE
+  - sensor:
+      - unique_id: sensor-robovac_collection_bin_type_raw
+        name: RoboVac L35 Hybrid Collection Bin Type (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','box_type') != None %}
+            {% set attr = state_attr('vacuum.robovac_l35_hybrid','box_type') %}
+            {% if attr == 'WaterTank' %}
+              Vacuum+Mop
+            {% else %}
+              {{ attr }}
+            {% endif %}
+          {% endif %}
+
+  # RAW VACUUM STATUS
+  - sensor:
+      - name: RoboVac L35 Hybrid Status (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','status') }}
+        unique_id: sensor-robovac_status_raw
+
+  # RAW VACUUM AUTO METHOD
+  - sensor:
+      - unique_id: sensor-robovac_auto_method_raw
+        name: RoboVac L35 Hybrid Auto Method (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','auto_method') }}
+
+  # RAW VACUUM CLEAN MODE
+  - sensor:
+      - unique_id: sensor-robovac_clean_mode_raw
+        name: RoboVac L35 Hybrid Clean Mode (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','clean_mode') != None %}
+            {% set attr = state_attr('vacuum.robovac_l35_hybrid','clean_mode') %}
+            {% if attr == 'Sweep' %}
+              Vacuum
+            {% elif attr == 'SweepMop' %}
+              Mop
+            {% endif %}
+          {% endif %}
+
+  # RAW VACUUM COLLECT MODE
+  - sensor:
+      - unique_id: sensor-robovac_auto_empty_raw
+        name: RoboVac L35 Hybrid Auto Empty (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','collect_mode') != None %}
+            {% set collect_mode = state_attr('vacuum.robovac_l35_hybrid','collect_mode') | int %}
+            {% if collect_mode == 0 %}
+              Off
+            {% elif collect_mode == 1 %}
+              Every clean
+            {% elif collect_mode == 2 %}
+              Every other clean
+            {% elif collect_mode == 3 %}
+              Every 3rd clean
+            {% endif %}
+          {% endif %}
+
+  # RAW VACUUM AUTO MESSAGE
+  - sensor:
+      - unique_id: sensor-robovac_auto_message_raw
+        name: RoboVac L35 Hybrid Auto Message (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','auto_message') }}
+
+  # RAW VACUUM BOX TYPE
+  - sensor:
+      - unique_id: sensor-robovac_auto_box_type_raw
+        name: RoboVac L35 Hybrid Box Type (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','box_type') }}
+
+  # RAW VACUUM AUTO UVC
+  - sensor:
+      - unique_id: sensor-robovac_auto_uvc_raw
+        name: RoboVac L35 Hybrid Auto UVC (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','auto_uvc') }}
+
+  # RAW VACUUM COLLECT SWITCH
+  - sensor:
+      - unique_id: sensor-robovac_collect_switch_raw
+        name: RoboVac L35 Hybrid Collect Switch (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','collect_switch') }}
+
+  # RAW VACUUM LASER AVOIDANCE
+  - sensor:
+      - unique_id: sensor-robovac_laser_avoidance_raw
+        name: RoboVac L35 Hybrid Laser Avoidance (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','laser_avoidance') }}
+
+  # RAW VACUUM UI LED
+  - sensor:
+      - unique_id: sensor-robovac_laser_ui_led
+        name: RoboVac L35 Hybrid UI LED (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','ui_led') }}
+
+  # RAW VACUUM UVC
+  - sensor:
+      - unique_id: sensor-robovac_laser_uvc
+        name: RoboVac L35 Hybrid UVC (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','uvc') }}
+
+  # RAW VACUUM CONSUMABLES - SENSORS
+  - sensor:
+      - unique_id: sensor-robovac_sensors_hours_raw
+        name: RoboVac L35 Hybrid Sensors Hours (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','consumable_sensors') }}
+
+  # RAW VACUUM CONSUMABLES - FILTER
+  - sensor:
+      - unique_id: sensor-robovac_filter_hours_raw
+        name: RoboVac L35 Hybrid Filter Hours (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','consumable_filter') }}
+
+  # RAW VACUUM CONSUMABLES - ROLLING BRUSH
+  - sensor:
+      - unique_id: sensor-robovac_rolling_brush_hours_raw
+        name: RoboVac L35 Hybrid Rolling Brush Hours (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','consumable_rolling_brushes') }}
+
+  # RAW VACUUM CONSUMABLES - SIDE BRUSHES
+  - sensor:
+      - unique_id: sensor-robovac_side_brushes_hours_raw
+        name: RoboVac L35 Hybrid Side Brushes Hours (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','consumable_side_brushes') }}
+
+  # RAW VACUUM CLEANING TIME
+  - sensor:
+      - unique_id: sensor-robovac_cleaning_time_raw
+        name: RoboVac L35 Hybrid Cleaning Time (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','cleaning_time') != None %}
+            {{ (state_attr('vacuum.robovac_l35_hybrid','cleaning_time') | int / 60) }}
+          {% endif %}
+
+  # RAW VACUUM CLEANING AREA
+  - sensor:
+      - unique_id: sensor-robovac_cleaning_area_raw
+        name: RoboVac L35 Hybrid Cleaning Area (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','cleaning_area') != None %}
+            {{ (state_attr('vacuum.robovac_l35_hybrid','cleaning_area') | int * 10.764) }}
+          {% endif %}
+
+  # RAW VACUUM TOTAL CLEANING TIME
+  - sensor:
+      - unique_id: sensor-robovac_total_cleaning_time_raw
+        name: RoboVac L35 Hybrid Total Cleaning Time (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','total_cleaning_time') != None %}
+            {{ (state_attr('vacuum.robovac_l35_hybrid','total_cleaning_time') | int / 60) }}
+          {% endif %}
+
+  # RAW VACUUM TOTAL CLEANING AREA
+  - sensor:
+      - unique_id: sensor-robovac_total_cleaning_area_raw
+        name: RoboVac L35 Hybrid Total Cleaning Area (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid','total_cleaning_area') != None %}
+            {{ (state_attr('vacuum.robovac_l35_hybrid','total_cleaning_area') | int * 10.764) }}
+          {% endif %}
+  # RAW VACUUM FAN SPEED
+  - sensor:
+      - unique_id: sensor-robovac_fan_speed_raw
+        name: RoboVac L35 Hybrid Fan Speed (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid', 'clean_level') }}
+
+  # RAW VACUUM BATTERY LEVEL
+  - sensor:
+      - unique_id: sensor-robovac_battery_raw
+        name: RoboVac L35 Hybrid Battery (raw)
+        state: >-
+          {{ state_attr('vacuum.robovac_l35_hybrid','battery_level') }}
+
+  # RAW VACUUM ERROR MESSAGE
+  - sensor:
+      - unique_id: sensor-robovac_error_message_raw
+        name: RoboVac L35 Hybrid Error Message (raw)
+        state: >-
+          {% if state_attr('vacuum.robovac_l35_hybrid', 'status') != None %}
+            {% if 'Error' in state_attr('vacuum.robovac_l35_hybrid', 'status') %}
+              {% set error = state_attr('vacuum.robovac_l35_hybrid', 'status').split(": ", 2) %}
+              {% if error[1] == "22" %}
+                Lifted
+              {% elif error[1] == "None" or error[1] == None %}
+                No error
+              {% else %}
+                {{ error[1] | capitalize }}
+              {% endif %}
+            {% else %}
+              No error
+            {% endif %}
+          {% else %}
+            No error
+          {% endif %}
+
+  # RAW VACUUM DOCK TYPE
+  - sensor:
+      - unique_id: sensor-robovac_collection_dock_type_raw
+        name: RoboVac L35 Hybrid Dock Type (raw)
+        state: >-
+          {% set attr = state_attr('vacuum.robovac_l35_hybrid','dock_type') %}
+          {% if attr == 'DustCollector' %}
+            Auto-empty
+          {% else %}
+            {{ attr }}
+          {% endif %}

@@ -1,0 +1,24 @@
+template:
+  # HOMEBASE MODEL NAME
+  - sensor:
+      - name: HomeBase Model name
+        state: "HomeBase 3 / HomeBase S380"
+        unique_id: sensor-homebase_model_name
+
+  # HOMEBASE MODEL NUMBER
+  - sensor:
+      - name: HomeBase Model number
+        state: >
+          {% if state_attr("binary_sensor.homebase_debug_station","properties") != None %}
+            {{ state_attr("binary_sensor.homebase_debug_station","properties").model }}
+          {% endif %}
+        unique_id: sensor-homebase_model_number
+
+  # HOMEBASE FIRMWARE
+  - sensor:
+      - name: HomeBase Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.homebase_debug_station","properties") != None %}
+          {{ state_attr("binary_sensor.homebase_debug_station","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-homebase_firmware_revision

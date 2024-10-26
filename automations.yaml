@@ -1,0 +1,55 @@
+- id: '1696988084568'
+  alias: 'Server: Set restarted boolean on startup'
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.home_assistant_restarted
+  mode: single
+- id: '1700258652278'
+  alias: 'Server: Nightly Backup'
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - service: backup.create
+    data: {}
+  mode: single
+- id: '1719689542439'
+  alias: Group - Create light groups
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - repeat:
+      for_each:
+      - area_name: kitchen
+      sequence:
+      - variables:
+          area_name: '{{ repeat.item.area_name }}'
+          members: '{{ area_entities("Kitchen") | reject(''is_hidden_entity'') | reject(''contains'',''kitchen_lights'')
+            | reject(''contains'', ''pantry'') | reject(''contains'',''spice'') |
+            select(''contains'',''light.'') | list }}
+
+            '
+      - if:
+        - condition: template
+          value_template: '{{ members | length > 0 }}'
+        then:
+        - service: group.set
+          data:
+            object_id: '{{ area_name }}_lights
+
+              '
+            add_entities: '{{ members }}
+
+              '
+  mode: single

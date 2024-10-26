@@ -1,0 +1,139 @@
+################################################################
+# Back Yard Camera
+################################################################
+
+################################################################
+# Groups
+#
+binary_sensor:
+  - platform: group
+    name: "Back Yard Camera Any Person Detected"
+    device_class: occupancy
+    unique_id: binary_sensor-back_yard_camera_any_person_detected
+    entities:
+      - binary_sensor.back_yard_camera_person_detected
+      - binary_sensor.back_yard_camera_known_person_detected
+
+################################################################
+# Input texts
+#
+input_text:
+  back_yard_camera_last_ai_event_description:
+    name: Back Yard Camera Last AI Event Description
+    max: 255
+  back_yard_camera_last_person_name:
+    name: Back Yard Camera Last Person Name
+
+################################################################
+# Input datetime
+#
+input_datetime:
+  back_yard_camera_last_ai_event:
+    name: Back Yard Camera Last AI Event
+    has_date: true
+    has_time: true
+  back_yard_camera_last_person_ai:
+    name: Back Yard Camera Last Person (AI)
+    has_date: true
+    has_time: true
+  back_yard_camera_last_known_person_ai:
+    name: Back Yard Camera Last Known Person (AI)
+    has_date: true
+    has_time: true
+  back_yard_camera_last_motion_ai:
+    name: Back Yard Camera Last Motion (AI)
+    has_date: true
+    has_time: true
+  back_yard_camera_last_pet_ai:
+    name: Back Yard Camera Last Pet (AI)
+    has_date: true
+    has_time: true
+  back_yard_camera_last_vehicle_ai:
+    name: Back Yard Camera Vehicle Pet (AI)
+    has_date: true
+    has_time: true
+  back_yard_camera_last_snapshot:
+    name: Back Yard Camera Last Snapshot
+    has_date: true
+    has_time: true
+
+################################################################
+# Input boolean
+#
+input_boolean:
+  start_back_yard_camera_stream_pressed:
+    name: Start Back Yard Camera Stream Pressed
+
+################################################################
+# Input buttons
+#
+input_button:
+  start_back_yard_camera_stream:
+    name: Start Back Yard Camera Stream
+
+  stop_back_yard_camera_stream:
+    name: Stop Back Yard Camera Stream
+
+################################################################
+# Templates
+#
+template:
+  # Back Yard NAME
+  - sensor:
+      - name: Back Yard Camera Name
+        state: "Back Yard"
+        unique_id: sensor-back_yard_camera_name
+
+  # Back Yard Camera MODEL NAME
+  - sensor:
+      - name: Back Yard Camera Model name
+        state: "eufyCam 2C / eufyCam S210"
+        unique_id: sensor-back_yard_camera_model_name
+
+  # Back Yard Camera MODEL NUMBER
+  - sensor:
+      - name: Back Yard Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.back_yard_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.back_yard_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-back_yard_camera_model_number
+
+  # Back Yard Camera FIRMWARE
+  - sensor:
+      - name: Back Yard Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.back_yard_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.back_yard_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-back_yard_camera_firmware_revision
+
+  # Back Yard Camera
+  - image:
+      - name: Back Yard Camera last motion (AI)
+        unique_id: image-back_yard_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-motion-ai.jpg?{{ states('input_datetime.back_yard_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last person (AI)
+        unique_id: image-back_yard_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-person-ai.jpg?{{ states('input_datetime.back_yard_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last known person (AI)
+        unique_id: image-back_yard_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-known_person-ai.jpg?{{ states('input_datetime.back_yard_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last pet (AI)
+        unique_id: image-back_yard_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-pet-ai.jpg?{{ states('input_datetime.back_yard_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last vehicle (AI)
+        unique_id: image-back_yard_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-vehicle-ai.jpg?{{ states('input_datetime.back_yard_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last AI event
+        unique_id: image-back_yard_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard-ai-event.jpg?{{ states('input_datetime.back_yard_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Back Yard Camera last snapshot
+        unique_id: image-back_yard_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/back_yard/back_yard.jpg?{{ states('input_datetime.back_yard_camera_last_snapshot') | as_timestamp(0) }}

@@ -1,0 +1,29 @@
+################################################################
+# Device trackers
+################################################################
+
+################################################################
+# Customize entities
+#
+homeassistant:
+  customize:
+    device_tracker.re420:
+      entity_picture: /local/images/devices/macbook.jpg
+    device_tracker.jesses_iphone:
+      entity_picture: /local/images/devices/iphone-12.jpg
+    device_tracker.shannon_s_phone:
+      entity_picture: /local/images/devices/samsung-phone.jpg
+    device_tracker.evren_s_tablet_active:
+      friendly_name: Evren's Tablet (active)
+    device_tracker.dahlia_s_tablet_active:
+      friendly_name: Dahlia's Tablet (active)
+
+  customize_glob:
+    device_tracker.mac_mini*:
+      entity_picture: /local/images/devices/macmini.jpg
+    device_tracker.re710*:
+      entity_picture: /local/images/devices/macmini.jpg
+    device_tracker.dahlia_s_tablet*:
+      entity_picture: /local/images/devices/dahlias-tablet.jpg
+    device_tracker.evren_s_tablet*:
+      entity_picture: /local/images/devices/evrens-tablet.jpg

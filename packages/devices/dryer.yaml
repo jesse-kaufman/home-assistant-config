@@ -1,0 +1,16 @@
+################################################################
+# Dryer
+################################################################
+
+template:
+  # DRYER RUNNING
+  - binary_sensor:
+      - unique_id: binary_sensor-dryer_running
+        name: Dryer Running
+        state: |
+          {% if is_state('sensor.dryer','running')
+            or is_state('sensor.dryer','cool down') %}
+            on
+          {% else %}
+            off
+          {% endif %}

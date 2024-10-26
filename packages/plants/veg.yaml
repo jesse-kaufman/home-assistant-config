@@ -1,0 +1,108 @@
+################################################################
+# Veg
+################################################################
+
+################################################################
+# Customize entities
+#
+homeassistant:
+  customize:
+    switch.veg_mixing_pump:
+      icon: mdi:pot-mix
+    switch.veg_water_pump:
+      icon: mdi:water-pump
+
+
+################################################################
+# Templates
+#
+template:
+  # Veg light threshold sensor
+  - binary_sensor:
+      - unique_id: binary_sensor-veg_threshold_light
+        name: "Veg Threshold: Light"
+        state: >-
+          {% if is_state('input_boolean.veg_schedule_paused','off') and states('light.veg_light') != states('binary_sensor.veg_light_schedule') %}
+              true
+          {% else %}
+              false
+          {% endif %}
+
+  # Veg humidity threshold
+  - binary_sensor:
+      - unique_id: binary_sensor-veg_threshold_humidity
+        name: "Veg Threshold: Humidity"
+        state: >-
+          {% if is_state('input_boolean.veg_schedule_paused','on') %}
+            false
+          {% else %}
+            {% set curr = states('sensor.veg_humidity') | int(0) %}
+            {% if curr > 0 and curr > 35 and curr < 80 %}
+              false
+            {% else %}
+              true
+            {% endif %}
+          {% endif %}
+
+  # Veg temperature threshold
+  - binary_sensor:
+      - unique_id: binary_sensor-veg_threshold_temperature
+        name: "Veg Threshold: Temperature"
+        state: >-
+          {% if is_state('binary_sensor.veg_temperature_low','on') or is_state('binary_sensor.veg_temperature_high','on') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  # Veg temperature high
+  - binary_sensor:
+      - unique_id: binary_sensor-veg_temperature_high
+        name: Veg Temperature High
+        state: >-
+          {% if is_state('input_boolean.veg_schedule_paused','on') %}
+            false
+          {% else %}
+            {% set curr = states('sensor.veg_temperature') | int(-99) %}
+            {% if curr > 0 and curr > 95 %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {% endif %}
+
+  # Veg temperature low
+  - binary_sensor:
+      - unique_id: binary_sensor-veg_temperature_low
+        name: Veg Temperature Low
+        state: >-
+          {% if is_state('input_boolean.veg_schedule_paused','on') %}
+            false
+          {% else %}
+            {% set curr = states('sensor.veg_temperature') | int(-99) %}
+            {% if curr > -99 and curr < 60 %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {% endif %}
+  # WATER LEVEL
+  # - sensor:
+  #     - name: Veg Water Level
+  #       unique_id: sensor-veg_water_level
+  #       state: >-
+  #         {% if is_state('binary_sensor.veg_water_level_low_sensor_water_leak', 'on')
+  #             and is_state('binary_sensor.veg_water_level_mid_sensor_water_leak', 'on')
+  #             and is_state('binary_sensor.veg_water_level_high_sensor_water_leak','on') %}
+  #             90
+  #         {% elif is_state('binary_sensor.veg_water_level_low_sensor_water_leak', 'on')
+  #             and is_state('binary_sensor.veg_water_level_mid_sensor_water_leak', 'on')
+  #             and is_state('binary_sensor.veg_water_level_high_sensor_water_leak','off') %}
+  #             50
+  #         {% elif is_state('binary_sensor.veg_water_level_low_sensor_water_leak', 'on')
+  #             and is_state('binary_sensor.veg_water_level_mid_sensor_water_leak', 'off')
+  #             and is_state('binary_sensor.veg_water_level_high_sensor_water_leak','off') %}
+  #             25
+  #         {% else %}
+  #             0
+  #         {% endif %}

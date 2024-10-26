@@ -1,0 +1,29 @@
+################################################################
+# Notify groups
+################################################################
+
+- platform: group
+  name: Jesse
+  services:
+    - service: mobile_app_mac_mini
+    - service: mobile_app_re420
+    - service: mobile_app_jesses_iphone
+  unique_id: service_notify-jesse
+
+- platform: group
+  name: Shannon
+  services:
+    - service: mobile_app_shannon_s_phone
+  unique_id: service_notify-shannon
+
+- platform: group
+  name: Anthony
+  services:
+    - service: mobile_app_iphone
+  unique_id: service_notify-anthony
+
+- platform: group
+  name: All
+  services:
+    - service: jesse
+    - service: shannon

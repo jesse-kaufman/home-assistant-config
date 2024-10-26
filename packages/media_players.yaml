@@ -1,0 +1,37 @@
+media_player:
+  - platform: media_player_template
+    media_players:
+      mac_mini:
+        friendly_name: Mac mini
+        device_class: tv
+        unique_id: media_player-mac_mini
+        value_template: >-
+          {% if is_state('binary_sensor.mac_mini_audio_output_in_use','on') %}
+            playing
+          {% elif is_state('binary_sensor.mac_mini_audio_output_in_use','unknown')
+            or states('binary_sensor.mac_mini_audio_output_in_use') == none %}
+          {% else %}
+            idle
+          {% endif %}
+        current_volume_template: >-
+          {{ states('input_number.mac_mini_volume') | int / 100 }}
+        current_is_muted_template: >
+          {{ states('input_boolean.mac_mini_mute') }}
+        volume_down:
+          service: shell_command.mac_volume_down
+        volume_up:
+          service: shell_command.mac_volume_up
+        set_volume:
+          service: shell_command.mac_set_volume
+          data:
+            volume: "{{ volume }}"
+        play:
+          service: shell_command.mac_media_play_pause
+        pause:
+          service: shell_command.mac_media_play_pause
+        mute:
+          service: shell_command.mac_mute
+        turn_off:
+          service: shell_command.mac_sleep_display
+        turn_on:
+          service: shell_command.mac_wake_display

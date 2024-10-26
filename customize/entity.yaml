@@ -1,0 +1,136 @@
+#
+# Dryer door
+#
+binary_sensor.dryer_door_contact_sensor_contact:
+  icon: mdi:door-closed
+
+#
+# Kitchen lights
+#
+light.kitchen_sink_light:
+  icon: mdi:faucet-variant
+light.kitchen_stove_light:
+  icon: mdi:ceiling-light
+light.kitchen_lamp:
+  icon: mdi:floor-lamp
+light.kitchen_cabinet_lighting:
+  icon: hue:gradient-lightstrip-wrap
+  # Keep cabinet lighting warmer than the other kitchen lights
+  max_color_temp_kelvin: 2500
+  # Keep cabinet lighting warmer than the other kitchen lights
+  min_color_temp_mireds: 357
+  supported_color_modes:
+    - color_temp
+
+#
+# Bathroom lights
+#
+light.bathroom_mirror_light:
+  icon: mdi:mirror
+light.bathroom_recessed_light:
+  icon: mdi:light-recessed
+light.bathroom_overhead_light:
+  icon: hue:ceiling-flourish
+
+# Dining room main light
+light.dining_room_bulb_1:
+  supported_color_modes:
+    - color_temp
+light.dining_room_bulb_2:
+  supported_color_modes:
+    - color_temp
+light.dining_room_bulb_3:
+  supported_color_modes:
+    - color_temp
+light.dining_room_bulb_4:
+  supported_color_modes:
+    - color_temp
+light.dining_room_light:
+  icon: mdi:chandelier
+  supported_color_modes:
+    - color_temp
+switch.elephant_light:
+  icon: mdi:elephant
+
+# Living room lights
+light.living_room_entry_sconce:
+  icon: mdi:wall-sconce
+light.living_room_sconce:
+  icon: mdi:wall-sconce
+light.living_room_lamp_top_bulb:
+  icon: cil:uplighter-2-way
+light.living_room_lamp_bottom_bulb:
+  icon: cil:uplighter-2-way
+light.living_room_tree_light:
+  icon: mdi:floor-lamp-dual
+light.tv_backlighting:
+  icon: hue:lightstrip-tv
+
+# Garage
+light.garage_main_lights:
+  icon: hue:room-carport
+light.driveway_light:
+  icon: hue:wall-spot
+
+# Bedroom
+media_player.appletv:
+  icon: phu:appletv-sim
+light.bedroom_main_light:
+  icon: hue:ceiling-flourish
+light.bedroom_shelf_lamp:
+  icon: phu:ikea-paparlamp
+light.bedroom_corner_lamp:
+  icon: mdi:lamp
+light.bedroom_left_headboard_lamp:
+  icon: mdi:lamp
+light.bedroom_desk_lamp:
+  icon: mdi:desk-lamp
+  max_color_temp_mireds: 1000
+light.bedroom_keyboard_light:
+  icon: ios:keyboard-fill
+input_boolean.bedroom_auto_bed_lights_paused:
+  icon: mdi:bed-empty
+
+#
+# Washing machine
+#
+switch.washing_machine_pipe_warmer:
+  icon: mdi:heating-coil
+
+#
+# Zigbee Average router link quality
+#
+sensor.average_zigbee_router_linkquality:
+  icon: mdi:leak
+
+sensor.basement_power:
+  unit_of_measurement: W
+sensor.living_room_power:
+  unit_of_measurement: W
+sensor.dining_room_power:
+  unit_of_measurement: W
+sensor.bedroom_power:
+  unit_of_measurement: W
+sensor.utility_room_power:
+  unit_of_measurement: W
+sensor.kitchen_power:
+  unit_of_measurement: W
+sensor.bathroom_power:
+  unit_of_measurement: W
+sensor.house_power:
+  unit_of_measurement: W
+
+binary_sensor.bedroom_desk_occupied:
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--purple-color)';
+      return 'var(--dark-grey-color)';
+    icon: hue:room-office
+binary_sensor.bedroom_bed_occupied:
+  templates:
+    icon_color: >
+      if (state === 'on') return 'var(--purple-color)';
+      return 'var(--dark-grey-color)';
+    icon: >
+      if (state === 'on') return 'mdi:bed';
+      return 'mdi:bed-empty';

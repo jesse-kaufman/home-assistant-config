@@ -1,0 +1,14 @@
+calendar:
+  - platform: caldav
+    url: https://caldav.icloud.com
+    username: glandix@lloydnet.org
+    password: !secret icloud_calendar_password
+    calendars:
+      - Home
+
+  - platform: caldav
+    url: https://cloud.lloydnet.org/remote.php/dav/
+    username: glandix
+    password: !secret nextcloud_calendar_password
+    calendars:
+      - Family

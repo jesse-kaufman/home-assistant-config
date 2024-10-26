@@ -1,0 +1,55 @@
+################################################################
+# Veg Camera
+################################################################
+
+################################################################
+# Templates
+#
+template:
+  # VEG NAME
+  - sensor:
+      - name: Veg Camera Name
+        state: "Veg"
+        unique_id: sensor-veg_camera_name
+
+  # Veg MODEL NAME
+  - sensor:
+      - name: Veg Camera Model name
+        state: "Indoor Cam 2K"
+        unique_id: sensor-veg_camera_model_name
+
+  # Veg MODEL NUMBER
+  - sensor:
+      - name: Veg Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.veg_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.veg_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-veg_camera_model_number
+
+  # Veg FIRMWARE
+  - sensor:
+      - name: Veg Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.veg_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.veg_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-veg_camera_firmware_revision
+
+  # Veg camera
+  - image:
+      - name: Veg Camera Last motion (AI)
+        unique_id: image-veg_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/veg/veg-motion-ai.jpg?{{ states('input_datetime.veg_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Veg Camera Last person (AI)
+        unique_id: image-veg_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/veg/veg-person-ai.jpg?{{ states('input_datetime.veg_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Veg Camera Last AI event
+        unique_id: image-veg_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/veg/veg-ai-event.jpg?{{ states('input_datetime.veg_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Veg Camera Last snapshot
+        unique_id: image-veg_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/veg/veg.jpg?{{ states('input_datetime.veg_camera_last_snapshot') | as_timestamp(0) }}

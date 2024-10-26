@@ -1,0 +1,16 @@
+################################################################
+# Thermostat HVAC Action
+################################################################
+
+template:
+  - sensor:
+      - name: Thermostat HVAC Action
+        state: >-
+          {% set action = state_attr('climate.nest_thermostat', 'hvac_action') %}
+          {% set preset = state_attr('climate.nest_thermostat', 'preset_mode') %}
+          {% if action == 'off' and preset != 'none' %}
+            {{ preset | title }}
+          {% else %}
+            {{ action | title }}
+          {% endif %}
+        unique_id: sensor-thermostat_hvac_action

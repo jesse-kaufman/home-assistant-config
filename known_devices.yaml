@@ -1,0 +1,580 @@
+automower_zone_nodered:
+  name: automower_zone_nodered
+  mac:
+  icon: mdi:robot-mower-outline
+  picture:
+  track: true
+
+findmy_e0a1b160aa224d79aaf96d96329df9a7:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_0459873aa5e140e8a2b3ab5561b0fc14:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_421c50a27a414cecb73b8110d94c3d9f:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_4a5e1ea2701f43498717401e6b821b88:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_96f2fbec227449f682b128ef6ddceec9:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_2b00bd2cf2824bc39f4aadbda286204f:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_240541b0f183409dafd9adb84e353e1c:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_fdf0d57124744e30aedabe80ad473cd8:
+  name: Babs
+  mac:
+  icon: mdi:cat
+  picture:
+  track: true
+
+findmy_e1a06db831534079b075babe63f49191:
+  name: Evren's Backpack
+  mac:
+  icon: mdi:bag-personal
+  picture:
+  track: true
+
+findmy_4725aa977c1449e1a9bab8aca9733067:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_3377206316bd45ffb7eb4df5d0205761:
+  name: Dahlia's Backpack
+  mac:
+  icon: mdi:bag-personal
+  picture:
+  track: true
+
+findmy_a5c8001e7a5d4b82b3ae2b86fc84d9c1:
+  name: Wenham
+  mac:
+  icon: mdi:cat
+  picture:
+  track: true
+
+findmy_82152c19ae5f48deaf647baa9bb7c6fa:
+  name: Right AirPod
+  mac:
+  icon:
+  picture:
+  track: true
+
+745e1c12424b:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+android_6:
+  name: Unknown Device
+  mac:
+  icon:
+  picture:
+  track: false
+
+findmy_26ea243ab4624140a91f150d234d872d:
+  name: Left AirPod
+  mac:
+  icon:
+  picture:
+  track: true
+
+evren_s_tablet_active:
+  name: Evren's Tablet (active)
+  mac:
+  icon:
+  picture: /local/images/devices/evrens-tablet.jpg
+  track: true
+
+dahlia_s_tablet_active:
+  name: Dahlia's Tablet (active)
+  mac:
+  icon:
+  picture: /local/images/devices/dahlias-tablet.jpg
+  track: true
+
+findmy_501d3fc8925c4f5fad07f822d462aa89:
+  name: findmy_501d3fc8925c4f5fad07f822d462aa89
+  mac:
+  icon:
+  picture:
+  track: true
+
+7c_83_34_b3_dd_e3:
+  name: 7c_83_34_b3_dd_e3
+  mac: 7C:83:34:B3:DD:E3
+  icon:
+  picture:
+  track: true
+
+1c_1d_86_8d_14_bf:
+  name: 1c_1d_86_8d_14_bf
+  mac: 1C:1D:86:8D:14:BF
+  icon:
+  picture:
+  track: true
+
+10_06_1c_b6_03_ac:
+  name: 10_06_1c_b6_03_ac
+  mac: 10:06:1C:B6:03:AC
+  icon:
+  picture:
+  track: true
+
+ac_67_84_9b_cc_e2:
+  name: ac_67_84_9b_cc_e2
+  mac: AC:67:84:9B:CC:E2
+  icon:
+  picture:
+  track: true
+
+84_28_59_5b_03_60:
+  name: 84_28_59_5b_03_60
+  mac: 84:28:59:5B:03:60
+  icon:
+  picture:
+  track: true
+
+40_91_51_59_9e_37:
+  name: 40_91_51_59_9e_37
+  mac: 40:91:51:59:9E:37
+  icon:
+  picture:
+  track: true
+
+50_fd_d5_d9_ce_77:
+  name: 50_fd_d5_d9_ce_77
+  mac: 50:FD:D5:D9:CE:77
+  icon:
+  picture:
+  track: true
+
+0c_8b_7d_f6_5e_c8:
+  name: 0c_8b_7d_f6_5e_c8
+  mac: 0C:8B:7D:F6:5E:C8
+  icon:
+  picture:
+  track: true
+
+90_f1_aa_a3_22_d7:
+  name: 90_f1_aa_a3_22_d7
+  mac: 90:F1:AA:A3:22:D7
+  icon:
+  picture:
+  track: true
+
+ac_bc_32_64_f8_34:
+  name: ac_bc_32_64_f8_34
+  mac: AC:BC:32:64:F8:34
+  icon:
+  picture:
+  track: true
+
+d8_1f_12_24_95_7c:
+  name: d8_1f_12_24_95_7c
+  mac: D8:1F:12:24:95:7C
+  icon:
+  picture:
+  track: true
+
+d8_1f_12_07_bb_5a:
+  name: d8_1f_12_07_bb_5a
+  mac: D8:1F:12:07:BB:5A
+  icon:
+  picture:
+  track: true
+
+fc_67_1f_50_4c_18:
+  name: fc_67_1f_50_4c_18
+  mac: FC:67:1F:50:4C:18
+  icon:
+  picture:
+  track: true
+
+50_8a_06_1b_e9_7f:
+  name: 50_8a_06_1b_e9_7f
+  mac: 50:8A:06:1B:E9:7F
+  icon:
+  picture:
+  track: true
+
+a0_92_08_8e_21_80:
+  name: a0_92_08_8e_21_80
+  mac: A0:92:08:8E:21:80
+  icon:
+  picture:
+  track: true
+
+48_22_54_38_f4_b8:
+  name: 48_22_54_38_f4_b8
+  mac: 48:22:54:38:F4:B8
+  icon:
+  picture:
+  track: true
+
+ac_7f_3e_e9_ca_aa:
+  name: ac_7f_3e_e9_ca_aa
+  mac: AC:7F:3E:E9:CA:AA
+  icon:
+  picture:
+  track: true
+
+a0_92_08_8e_08_60:
+  name: a0_92_08_8e_08_60
+  mac: A0:92:08:8E:08:60
+  icon:
+  picture:
+  track: true
+
+f0_18_98_b3_ab_64:
+  name: f0_18_98_b3_ab_64
+  mac: F0:18:98:B3:AB:64
+  icon:
+  picture:
+  track: true
+
+a0_92_08_8d_fd_1e:
+  name: a0_92_08_8d_fd_1e
+  mac: A0:92:08:8D:FD:1E
+  icon:
+  picture:
+  track: true
+
+08_12_a5_a0_69_d9:
+  name: 08_12_a5_a0_69_d9
+  mac: 08:12:A5:A0:69:D9
+  icon:
+  picture:
+  track: true
+
+a0_92_08_8e_33_f0:
+  name: a0_92_08_8e_33_f0
+  mac: A0:92:08:8E:33:F0
+  icon:
+  picture:
+  track: true
+
+b0_a7_b9_1b_a6_fa:
+  name: b0_a7_b9_1b_a6_fa
+  mac: B0:A7:B9:1B:A6:FA
+  icon:
+  picture:
+  track: true
+
+d8_1f_12_25_a7_a2:
+  name: d8_1f_12_25_a7_a2
+  mac: D8:1F:12:25:A7:A2
+  icon:
+  picture:
+  track: true
+
+e8_4c_4a_da_e1_d9:
+  name: e8_4c_4a_da_e1_d9
+  mac: E8:4C:4A:DA:E1:D9
+  icon:
+  picture:
+  track: true
+
+50_8a_06_1c_04_b9:
+  name: 50_8a_06_1c_04_b9
+  mac: 50:8A:06:1C:04:B9
+  icon:
+  picture:
+  track: true
+
+90_f8_2e_d3_42_09:
+  name: 90_f8_2e_d3_42_09
+  mac: 90:F8:2E:D3:42:09
+  icon:
+  picture:
+  track: true
+
+d8_be_1f_7e_ed_d7:
+  name: d8_be_1f_7e_ed_d7
+  mac: D8:BE:1F:7E:ED:D7
+  icon:
+  picture:
+  track: true
+
+b0_cf_cb_30_dc_60:
+  name: b0_cf_cb_30_dc_60
+  mac: B0:CF:CB:30:DC:60
+  icon:
+  picture:
+  track: true
+
+46_85_12_f0_82_13:
+  name: 46_85_12_f0_82_13
+  mac: 46:85:12:F0:82:13
+  icon:
+  picture:
+  track: true
+
+c8_2a_14_51_dc_84:
+  name: c8_2a_14_51_dc_84
+  mac: C8:2A:14:51:DC:84
+  icon:
+  picture:
+  track: true
+
+ac_41_6a_d8_96_0a:
+  name: ac_41_6a_d8_96_0a
+  mac: AC:41:6A:D8:96:0A
+  icon:
+  picture:
+  track: true
+
+fc_67_1f_4f_35_6e:
+  name: fc_67_1f_4f_35_6e
+  mac: FC:67:1F:4F:35:6E
+  icon:
+  picture:
+  track: true
+
+34_af_b3_95_ff_e5:
+  name: 34_af_b3_95_ff_e5
+  mac: 34:AF:B3:95:FF:E5
+  icon:
+  picture:
+  track: true
+
+b0_41_6f_0b_f4_46:
+  name: b0_41_6f_0b_f4_46
+  mac: B0:41:6F:0B:F4:46
+  icon:
+  picture:
+  track: true
+
+3c_e4_41_0b_3b_6d:
+  name: 3c_e4_41_0b_3b_6d
+  mac: 3C:E4:41:0B:3B:6D
+  icon:
+  picture:
+  track: true
+
+30_fd_38_7c_b0_00:
+  name: 30_fd_38_7c_b0_00
+  mac: 30:FD:38:7C:B0:00
+  icon:
+  picture:
+  track: true
+
+34_60_f9_ef_bd_9b:
+  name: 34_60_f9_ef_bd_9b
+  mac: 34:60:F9:EF:BD:9B
+  icon:
+  picture:
+  track: true
+
+a4_77_f3_03_27_19:
+  name: a4_77_f3_03_27_19
+  mac: A4:77:F3:03:27:19
+  icon:
+  picture:
+  track: true
+
+b0_f7_c4_25_e0_cc:
+  name: b0_f7_c4_25_e0_cc
+  mac: B0:F7:C4:25:E0:CC
+  icon:
+  picture:
+  track: true
+
+5c_62_8b_a5_82_b9:
+  name: 5c_62_8b_a5_82_b9
+  mac: 5C:62:8B:A5:82:B9
+  icon:
+  picture:
+  track: true
+
+04_17_b6_60_11_05:
+  name: 04_17_b6_60_11_05
+  mac: 04:17:B6:60:11:05
+  icon:
+  picture:
+  track: true
+
+3c_22_fb_28_e1_3b:
+  name: 3c_22_fb_28_e1_3b
+  mac: 3C:22:FB:28:E1:3B
+  icon:
+  picture:
+  track: true
+
+8c_85_80_d2_ce_f6:
+  name: 8c_85_80_d2_ce_f6
+  mac: 8C:85:80:D2:CE:F6
+  icon:
+  picture:
+  track: true
+
+d4_8a_fc_a2_05_2f:
+  name: d4_8a_fc_a2_05_2f
+  mac: D4:8A:FC:A2:05:2F
+  icon:
+  picture:
+  track: true
+
+a4_77_f3_04_ce_d3:
+  name: a4_77_f3_04_ce_d3
+  mac: A4:77:F3:04:CE:D3
+  icon:
+  picture:
+  track: true
+
+04_17_b6_83_92_59:
+  name: 04_17_b6_83_92_59
+  mac: 04:17:B6:83:92:59
+  icon:
+  picture:
+  track: true
+
+40_ed_00_14_43_6a:
+  name: 40_ed_00_14_43_6a
+  mac: 40:ED:00:14:43:6A
+  icon:
+  picture:
+  track: true
+
+04_17_b6_24_01_1b:
+  name: 04_17_b6_24_01_1b
+  mac: 04:17:B6:24:01:1B
+  icon:
+  picture:
+  track: true
+
+a0_b7_65_61_fc_93:
+  name: a0_b7_65_61_fc_93
+  mac: A0:B7:65:61:FC:93
+  icon:
+  picture:
+  track: true
+
+30_de_4b_3d_89_40:
+  name: 30_de_4b_3d_89_40
+  mac: 30:DE:4B:3D:89:40
+  icon:
+  picture:
+  track: true
+
+a8_42_e3_46_a7_9f:
+  name: a8_42_e3_46_a7_9f
+  mac: A8:42:E3:46:A7:9F
+  icon:
+  picture:
+  track: true
+
+94_fe_a4_0b_47_36:
+  name: 94_fe_a4_0b_47_36
+  mac: 94:FE:A4:0B:47:36
+  icon:
+  picture:
+  track: true
+
+48_b8_52_3f_2b_d6:
+  name: 48_b8_52_3f_2b_d6
+  mac: 48:B8:52:3F:2B:D6
+  icon:
+  picture:
+  track: true
+
+60_be_b4_12_e9_c1:
+  name: 60_be_b4_12_e9_c1
+  mac: 60:BE:B4:12:E9:C1
+  icon:
+  picture:
+  track: true
+
+60_be_b4_12_e9_c2:
+  name: 60_be_b4_12_e9_c2
+  mac: 60:BE:B4:12:E9:C2
+  icon:
+  picture:
+  track: true
+
+60_be_b4_12_e9_c3:
+  name: 60_be_b4_12_e9_c3
+  mac: 60:BE:B4:12:E9:C3
+  icon:
+  picture:
+  track: true
+
+9c_a2_f4_4d_75_24:
+  name: 9c_a2_f4_4d_75_24
+  mac: 9C:A2:F4:4D:75:24
+  icon:
+  picture:
+  track: true
+
+28_ee_52_6c_fd_50:
+  name: 28_ee_52_6c_fd_50
+  mac: 28:EE:52:6C:FD:50
+  icon:
+  picture:
+  track: true
+
+fc_d7_49_77_62_84:
+  name: fc_d7_49_77_62_84
+  mac: FC:D7:49:77:62:84
+  icon:
+  picture:
+  track: true
+
+74_a7_ea_ee_fd_52:
+  name: 74_a7_ea_ee_fd_52
+  mac: 74:A7:EA:EE:FD:52
+  icon:
+  picture:
+  track: true
+
+58_e4_88_cd_7e_6c:
+  name: 58_e4_88_cd_7e_6c
+  mac: 58:E4:88:CD:7E:6C
+  icon:
+  picture:
+  track: true
+
+04_7b_cb_b7_13_1e:
+  name: 04_7b_cb_b7_13_1e
+  mac: 04:7B:CB:B7:13:1E
+  icon:
+  picture:
+  track: true

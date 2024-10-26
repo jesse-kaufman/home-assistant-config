@@ -1,0 +1,111 @@
+################################################################
+# East Side Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  east_side_camera_last_ai_event_description:
+    name: East Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Lights
+#
+light:
+  #
+  # East Side Camera Light
+  #
+  - platform: template
+    lights:
+      east_side_camera_light:
+        unique_id: light-east_side_camera_light
+        friendly_name: "East Side Camera Light"
+        level_template: "{{ (( states('number.east_side_camera_light_brightness_manual') | int(0) / 100 ) * 255) | round }}"
+        value_template: "{{ states('switch.east_side_camera_light') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.east_side_camera_light
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.east_side_camera_light
+        set_level:
+          service: number.set_value
+          data:
+            entity_id: number.east_side_camera_light_brightness_manual
+            value: >-
+              {% set level = ((brightness / 255) * 100) | int %}
+              {% if level < 40 %}
+                40
+              {% elif level > 100 %}
+                100
+              {% else %}
+                {{ level }}
+              {% endif %}
+
+################################################################
+# Templates
+#
+template:
+  # EAST SIDE NAME
+  - sensor:
+      - name: East Side Camera Name
+        state: "East Side"
+        unique_id: sensor-east_side_camera_name
+
+  # EAST SIDE MODEL NAME
+  - sensor:
+      - name: East Side Camera Model name
+        state: "eufyCam 2C Pro / eufyCam S220"
+        unique_id: sensor-east_side_camera_model_name
+
+  # EAST SIDE FIRMWARE
+  - sensor:
+      - name: East Side Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.east_side_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.east_side_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-east_side_camera_firmware_revision
+
+  # EAST SIDE MODEL NUMBER
+  - sensor:
+      - name: East Side Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.east_side_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.east_side_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-east_side_camera_model_number
+
+  # East Side camera
+  - image:
+      - name: East Side Camera Last Motion (AI)
+        unique_id: image-east_side_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-motion-ai.jpg?{{ states('input_datetime.east_side_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last Person (AI)
+        unique_id: image-east_side_last_person_ai
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-person-ai.jpg?{{ states('input_datetime.east_side_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last Known Person (AI)
+        unique_id: image-east_side_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-known-person-ai.jpg?{{ states('input_datetime.east_side_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last Pet (AI)
+        unique_id: image-east_side_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-pet-ai.jpg?{{ states('input_datetime.east_side_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last Vehicle (AI)
+        unique_id: image-east_side_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-vehicle-ai.jpg?{{ states('input_datetime.east_side_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last Snapshot
+        unique_id: image-east_side_last_snapshot
+        url: http://localhost:8123/local/images/cameras/east_side/east_side.jpg?{{ states('input_datetime.east_side_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: East Side Camera Last AI Event
+        unique_id: image-east_side_last_ai_event
+        url: http://localhost:8123/local/images/cameras/east_side/east_side-ai-event.jpg?{{ states('input_datetime.east_side_camera_last_ai_event') | as_timestamp(0) }}

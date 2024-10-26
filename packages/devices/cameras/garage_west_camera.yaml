@@ -1,0 +1,110 @@
+################################################################
+# Garage West Camera
+################################################################
+
+################################################################
+# Input texts
+#
+input_text:
+  garage_west_camera_last_ai_event_description:
+    name: Garage West Camera Last AI Event Description
+    max: 255
+
+################################################################
+# Lights
+#
+light:
+  - platform: template
+    lights:
+      #
+      # Garage West Camera Light
+      #
+      garage_west_camera_light:
+        unique_id: light-garage_west_camera_light
+        friendly_name: "Garage West Camera Light"
+        level_template: "{{ (( states('number.garage_west_camera_light_brightness_manual') | int(0) / 100 ) * 255) | round }}"
+        value_template: "{{ states('switch.garage_west_camera_light') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garage_west_camera_light
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.garage_west_camera_light
+        set_level:
+          service: number.set_value
+          data:
+            entity_id: number.garage_west_camera_light_brightness_manual
+            value: >-
+              {% set level = ((brightness / 255) * 100) | int %}
+              {% if level < 40 %}
+                40
+              {% elif level > 100 %}
+                100
+              {% else %}
+                {{ level }}
+              {% endif %}
+
+################################################################
+# Templates
+#
+template:
+  # GARAGE WEST NAME
+  - sensor:
+      - name: Garage West Camera Name
+        state: "Garage West"
+        unique_id: sensor-garage_west_camera_name
+
+  # GARAGE WEST MODEL NAME
+  - sensor:
+      - name: Garage West Camera Model name
+        state: "eufyCam 2C Pro / eufyCam S220"
+        unique_id: sensor-garage_west_camera_model_name
+
+  # GARAGE WEST MODEL NUMBER
+  - sensor:
+      - name: Garage West Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.garage_west_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.garage_west_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-garage_west_camera_model_number
+
+  # GARAGE WEST FIRMWARE
+  - sensor:
+      - name: Garage West Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.garage_west_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.garage_west_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-garage_west_camera_firmware_revision
+  # Garage West camera
+  - image:
+      - name: Garage West Camera Last Motion (AI)
+        unique_id: image-garage_west_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-motion-ai.jpg?{{ states('input_datetime.garage_west_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last Person (AI)
+        unique_id: image-garage_west_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-person-ai.jpg?{{ states('input_datetime.garage_west_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last Known Person (AI)
+        unique_id: image-garage_west_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-known-person-ai.jpg?{{ states('input_datetime.garage_west_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last Pet (AI)
+        unique_id: image-garage_west_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-pet-ai.jpg?{{ states('input_datetime.garage_west_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last Vehicle (AI)
+        unique_id: image-garage_west_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-vehicle-ai.jpg?{{ states('input_datetime.garage_west_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last Snapshot
+        unique_id: image-garage_west_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west.jpg?{{ states('input_datetime.garage_west_camera_last_snapshot') | as_timestamp(0) }}
+  - image:
+      - name: Garage West Camera Last AI Event
+        unique_id: image-garage_west_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/garage_west/garage_west-ai-event.jpg?{{ states('input_datetime.garage_west_camera_last_ai_event') | as_timestamp(0) }}

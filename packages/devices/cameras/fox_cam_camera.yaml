@@ -1,0 +1,139 @@
+################################################################
+# Fox Cam Camera
+################################################################
+
+################################################################
+# Groups
+#
+binary_sensor:
+  - platform: group
+    name: "Fox Cam Camera Any Person Detected"
+    device_class: occupancy
+    unique_id: binary_sensor-fox_cam_camera_any_person_detected
+    entities:
+      - binary_sensor.fox_cam_camera_person_detected
+      - binary_sensor.fox_cam_camera_known_person_detected
+
+################################################################
+# Input texts
+#
+input_text:
+  fox_cam_camera_last_ai_event_description:
+    name: Fox Cam Camera Last AI Event Description
+    max: 255
+  fox_cam_camera_last_person_name:
+    name: Fox Cam Camera Last Person Name
+
+################################################################
+# Input datetime
+#
+input_datetime:
+  fox_cam_camera_last_ai_event:
+    name: Fox Cam Camera Last AI Event
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_person_ai:
+    name: Fox Cam Camera Last Person (AI)
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_known_person_ai:
+    name: Fox Cam Camera Last Known Person (AI)
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_motion_ai:
+    name: Fox Cam Camera Last Motion (AI)
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_pet_ai:
+    name: Fox Cam Camera Last Pet (AI)
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_vehicle_ai:
+    name: Fox Cam Camera Vehicle Pet (AI)
+    has_date: true
+    has_time: true
+  fox_cam_camera_last_snapshot:
+    name: Fox Cam Camera Last Snapshot
+    has_date: true
+    has_time: true
+
+################################################################
+# Input boolean
+#
+input_boolean:
+  start_fox_cam_camera_stream_pressed:
+    name: Start Fox Cam Camera Stream Pressed
+
+################################################################
+# Input buttons
+#
+input_button:
+  start_fox_cam_camera_stream:
+    name: Start Fox Cam Camera Stream
+
+  stop_fox_cam_camera_stream:
+    name: Stop Fox Cam Camera Stream
+
+################################################################
+# Templates
+#
+template:
+  # FOX CAM NAME
+  - sensor:
+      - name: Fox Cam Camera Name
+        state: "Fox"
+        unique_id: sensor-fox_cam_camera_name
+
+  # Fox Cam Camera MODEL NAME
+  - sensor:
+      - name: Fox Cam Camera Model name
+        state: "eufyCam 2C Pro / eufyCam S220"
+        unique_id: sensor-fox_cam_camera_model_name
+
+  # Fox Cam Camera MODEL NUMBER
+  - sensor:
+      - name: Fox Cam Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.fox_cam_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.fox_cam_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-fox_cam_camera_model_number
+
+  # Fox Cam Camera FIRMWARE
+  - sensor:
+      - name: Fox Cam Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.fox_cam_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.fox_cam_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-fox_cam_camera_firmware_revision
+
+  # Fox Cam Camera
+  - image:
+      - name: Fox Cam Camera last motion (AI)
+        unique_id: image-fox_cam_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-motion-ai.jpg?{{ states('input_datetime.fox_cam_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last person (AI)
+        unique_id: image-fox_cam_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-person-ai.jpg?{{ states('input_datetime.fox_cam_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last known person (AI)
+        unique_id: image-fox_cam_camera_last_known_person_ai
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-known_person-ai.jpg?{{ states('input_datetime.fox_cam_camera_last_known_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last pet (AI)
+        unique_id: image-fox_cam_camera_last_pet_ai
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-pet-ai.jpg?{{ states('input_datetime.fox_cam_camera_last_pet_ai') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last vehicle (AI)
+        unique_id: image-fox_cam_camera_last_vehicle_ai
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-vehicle-ai.jpg?{{ states('input_datetime.fox_cam_camera_last_vehicle_ai') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last AI event
+        unique_id: image-fox_cam_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam-ai-event.jpg?{{ states('input_datetime.fox_cam_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Fox Cam Camera last snapshot
+        unique_id: image-fox_cam_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/fox_cam/fox_cam.jpg?{{ states('input_datetime.fox_cam_camera_last_snapshot') | as_timestamp(0) }}

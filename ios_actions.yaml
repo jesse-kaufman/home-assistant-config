@@ -1,0 +1,9 @@
+actions:
+  - name: Start wind down
+    background_color: "#000000"
+    label:
+      text: Start wind down
+      color: "#ff0000"
+    icon:
+      icon: mdi:bed-clock
+      color: "#ffffff"

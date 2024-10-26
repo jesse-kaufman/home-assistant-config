@@ -1,0 +1,88 @@
+################################################################
+# Flower Camera
+################################################################
+
+################################################################
+# Input datetime
+#
+input_datetime:
+  flower_camera_last_ai_event:
+    name: Flower Camera Last AI Event
+    has_date: true
+    has_time: true
+  flower_camera_last_person_ai:
+    name: Flower Camera Last Person (AI)
+    has_date: true
+    has_time: true
+  flower_camera_last_known_person_ai:
+    name: Flower Camera Last Known Person (AI)
+    has_date: true
+    has_time: true
+  flower_camera_last_motion_ai:
+    name: Flower Camera Last Motion (AI)
+    has_date: true
+    has_time: true
+  flower_camera_last_pet_ai:
+    name: Flower Camera Last Pet (AI)
+    has_date: true
+    has_time: true
+  flower_camera_last_vehicle_ai:
+    name: Flower Camera Vehicle Pet (AI)
+    has_date: true
+    has_time: true
+  flower_camera_last_snapshot:
+    name: Flower Camera Last Snapshot
+    has_date: true
+    has_time: true
+
+################################################################
+# Templates
+#
+template:
+  # FLOWER NAME
+  - sensor:
+      - name: Flower Camera Name
+        state: "Flower"
+        unique_id: sensor-flower_camera_name
+
+  # Flower MODEL NAME
+  - sensor:
+      - name: Flower Camera Model name
+        state: "Indoor Cam 2K"
+        unique_id: sensor-flower_camera_model_name
+
+  # Flower MODEL NUMBER
+  - sensor:
+      - name: Flower Camera Model number
+        state: >-
+          {% if state_attr("binary_sensor.flower_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.flower_camera_debug_device","properties").model }}
+          {% endif %}
+        unique_id: sensor-flower_camera_model_number
+
+  # Flower FIRMWARE
+  - sensor:
+      - name: Flower Camera Firmware revision
+        state: >-
+          {% if state_attr("binary_sensor.flower_camera_debug_device","properties") != None %}
+            {{ state_attr("binary_sensor.flower_camera_debug_device","properties").softwareVersion }}
+          {% endif %}
+        unique_id: sensor-flower_camera_firmware_revision
+
+  # Flower camera
+  - image:
+      - name: Flower Camera Last motion (AI)
+        unique_id: image-flower_camera_last_motion_ai
+        url: http://localhost:8123/local/images/cameras/flower/flower-motion-ai.jpg?{{ states('input_datetime.flower_camera_last_motion_ai') | as_timestamp(0) }}
+  - image:
+      - name: Flower Camera Last person (AI)
+        unique_id: image-flower_camera_last_person_ai
+        url: http://localhost:8123/local/images/cameras/flower/flower-person-ai.jpg?{{ states('input_datetime.flower_camera_last_person_ai') | as_timestamp(0) }}
+  - image:
+      - name: Flower Camera Last AI event
+        unique_id: image-flower_camera_last_ai_event
+        url: http://localhost:8123/local/images/cameras/flower/flower-ai-event.jpg?{{ states('input_datetime.flower_camera_last_ai_event') | as_timestamp(0) }}
+  - image:
+      - name: Flower Camera Last snapshot
+        unique_id: image-flower_camera_last_snapshot
+        url: http://localhost:8123/local/images/cameras/flower/flower.jpg?{{ states('input_datetime.flower_camera_last_snapshot') | as_timestamp(0) }}
