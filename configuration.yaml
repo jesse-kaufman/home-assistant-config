@@ -1,7 +1,8 @@
+##
+# Core config
+#
 # Loads default set of integrations. Do not remove.
 default_config:
-
-# Core config
 homeassistant:
   # Load customizations
   customize: !include customize/entity.yaml
@@ -45,6 +46,8 @@ influxdb:
 # ADDITIONAL INCLUDES
 #
 
+# Recorder config
+recorder: !include recorder.yaml
 # HTTP configuration
 http: !include http.yaml
 # HomeKit
